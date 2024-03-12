@@ -1,0 +1,57 @@
+package com.mini.emoti.model.entity;
+
+import org.hibernate.validator.constraints.URL;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity(name = "UserEntity")
+@Table(name = "users")
+public class UserEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+    @NotBlank
+    @Pattern(regexp = "^[가-힣a-z0-9_]+$", message = "닉네임은 한글, 영어 소문자, 숫자, 밑줄(_)만 포함할 수 있습니다.")
+    @Column(unique = true)
+    private String nickname;
+    @NotBlank
+    @Email(message = "올바른 이메일 형식이 아닙니다.") 
+    private String email; // ID
+    @NotBlank(message = "비밀번호는 필수입니다.")
+    @Size(min = 4, max = 8, message = "비밀번호는 4자 이상 8자 이하입니다.")
+    private String password; // PW
+    @PositiveOrZero
+    @Column(name = "emotion_cnt", columnDefinition = "int default 0")
+    private int emotionCnt;
+    @PositiveOrZero
+    @Column(name = "comment_cnt", columnDefinition = "int default 0")
+    private int CommentCnt;
+    @PositiveOrZero
+    @Column(name = "post_cnt", columnDefinition = "int default 0")
+    private int PostCnt;
+    @URL
+    private String profileImage;
+
+    
+}
