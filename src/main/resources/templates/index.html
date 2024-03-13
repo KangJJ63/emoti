@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <title>Main Page</title>
-    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Gowun+Batang&family=Jua&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">       
+    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Gowun+Batang&family=Jua&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">     
+
+
+    
+
 </head>
 <body>
     <!-- HTML 코드 -->
@@ -23,9 +30,9 @@
         </nav>
     </header>
 
-    <!-- 모달 -->
+    <!--로그인 모달 -->
 <div class="modal">
-    <div class="loginPage" id="loginPage"> <!-- 화면 중앙에 위치하기 위한 div 추가 -->
+    <div class="loginPage" id="loginPage" > <!-- 화면 중앙에 위치하기 위한 div 추가 -->
         <form class="loginForm" action="/login" method="post">
             <h2>로그인</h2>
             <input class="loginText" type="text" name="username" placeholder="아이디" required>
@@ -33,11 +40,14 @@
             <input class="loginSubmit" type="submit" value="로그인">
             <button class="signup-button" onclick="showSignUpForm()">회원가입</button>
             <div class="social-login">
-                <img src="../static/img/smile.png" onclick="kakaoLogin()">
-                <img src="../static/img/smile.png" onclick="naverLogin()">
-                <img src="../static/img/smile.png" onclick="googleLogin()">
+                <img src="/static/img/smile.png" onclick="kakaoLogin()">
+                <img src="/static/img/smile.png" onclick="naverLogin()">
+                <img src="/static/img/smi
+                le.png" onclick="googleLogin()">
             </div>
+            
         </form>
+        
     </div> <!-- 중앙 정렬을 위한 div 종료 -->
     <div class="signUpPage" id="signUpPage" style="display:none;"> <!-- 회원가입 폼 -->
         <form class="signUpForm" action="/join" method="post">
@@ -75,6 +85,38 @@
     function googleLogin() {
         // 구글 로그인 처리
     }
+
+    // JOIN : ajax - controller 소통 
+
+function join(nickname, email, password) {
+    var jsonData = {
+        nickname: nickname,
+        email: email,
+        password: password
+    };
+
+    $.ajax({
+        type: 'POST',
+        url: 'http://localhost:8080/join',
+        contentType: 'application/json',
+        data: JSON.stringify(jsonData),
+        success: function (response) {
+            console.log('JOIN 성공: ' + response);
+            // join 성공 시 실행할 동작 추가
+            handleJoinSuccess();
+        },
+        error: function (error) {
+            console.log('JOIN 에러: ' + error);
+        }
+    });
+
+    function handleJoinSuccess() {
+        // join이 성공했을 때 로그인 모달을 열기
+        showLoginModal();
+    }
+};
+    
+
 </script>
 
 <script>
@@ -105,7 +147,38 @@
             body.style.overflow = 'auto';
         }
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hide the modal by default
+        modal.classList.remove('show');
+        
+        // 모달 열기 여부 확인 후 실행
+        var openLogin = /*[[${openLogin}]]*/ false;
+
+        if (openLogin) {
+            // Call the showLoginModal() function when needed
+            showLoginModal();
+        }
+
+        var openJoinModal = /*[[${openJoinModal}]]*/ false;
+
+        if (openJoinModal) {
+            showSignUpForm();
+        }
+    });
+
+    function showLoginModal() {
+        // 회원가입 폼을 숨기고 로그인 폼을 표시
+        document.getElementById('signUpPage').style.display = 'none';
+        document.getElementById('loginPage').style.display = 'block';
+
+        // 직접 모달을 보이게 함
+        modal.classList.add('show');
+        body.style.overflow = 'hidden';
+    }
+
 </script>
+
 
 
     <section id="section5">
@@ -121,9 +194,10 @@
         <h2>우리의 기분</h2>
         <p>오늘 우리는 맑음^^</p>
         <br><br>
-        <img src="../static/img/smile.png" alt="기쁨" style="width: 200px;">
+        <img src="/static/img/smile.png" alt="기쁨" style="width: 200px;">
         <br><br><br>
     </section>
+    
 
     
 
@@ -134,25 +208,30 @@
         <br><br>
         <div class="image-container">
             <figure  onclick="showCaption('행복')">
-                <img src="../static/img/행복.png" alt="이미지 1" style="width: 100px; height: auto;">
+                <img src="/static/img/행복.png" alt="이미지 1" style="width: 100px; height: auto;">
                 <figcaption>행복</figcaption>
             </figure>
+            
             <figure>
-                <img src="../static/img/평온.png" alt="이미지 2" style="width: 100px; height: auto;">
+                <img src="/static/img/평온.png" alt="이미지 2" style="width: 100px; height: auto;">
                 <figcaption>평온</figcaption>
             </figure>
+            
             <figure>
-                <img src="../static/img/놀람.png" alt="이미지 3" style="width: 100px; height: auto;">
+                <img src="/static/img/놀람.png" alt="이미지 3" style="width: 100px; height: auto;">
                 <figcaption>놀람</figcaption>
             </figure>
+            
             <figure>
-                <img src="../static/img/슬픔.png" alt="이미지 4" style="width: 100px; height: auto;">
+                <img src="/static/img/슬픔.png" alt="이미지 4" style="width: 100px; height: auto;">
                 <figcaption>슬픔</figcaption>
             </figure>
+            
             <figure>
-                <img src="../static/img/화남.png" alt="이미지 5" style="width: 100px; height: auto;">
+                <img src="/static/img/화남.png" alt="이미지 5" style="width: 100px; height: auto;">
                 <figcaption>화남</figcaption>
             </figure>
+            
         </div>
         
         <br><br><br>
@@ -174,23 +253,26 @@
             <div class="sub-section">
                 <p>날씨</p>
                 <br>
-                <img src="../static/img/smile.png" alt="이미지 1" style="width: 80px;">
+                <img src="/static/img/smile.png" alt="이미지 1" style="width: 80px;">
                 <p>맑음</p>
             </div>
+            
             
             <div class="sub-section">
                 <p>날씨</p>
                 <br>
-                <img src="../static/img/smile.png" alt="이미지 1" style="width: 80px;">
+                <img src="/static/img/smile.png" alt="이미지 1" style="width: 80px;">
                 <p>맑음</p>
             </div>
+            
             
             <div class="sub-section">
                 <p>날씨</p>
                 <br>
-                <img src="../static/img/smile.png" alt="이미지 1" style="width: 80px;">
+                <img src="/static/img/smile.png" alt="이미지 1" style="width: 80px;">
                 <p>맑음</p>
             </div>
+            
         </div>
         <br><br><br>
     </section>

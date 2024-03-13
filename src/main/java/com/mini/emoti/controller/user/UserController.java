@@ -1,6 +1,8 @@
 package com.mini.emoti.controller.user;
 
+import org.hibernate.annotations.AttributeAccessor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,27 +48,32 @@ public class UserController {
      @GetMapping("/loginPage")
      public String loginPage(@RequestParam(value = "errorMessage", required = false)String errorMessage, Model model){
         model.addAttribute("errorMessage", errorMessage);
-
-        return "login/loginPage";
+        model.addAttribute("openLogin", true);
+        return "index";
 
      }
+
 
      @GetMapping("/joinPage")
-     public String joinPage(){
-        return "login/joinPage";
-     }
+     public String joinPage(Model model){
+        model.addAttribute("openJoinModal", true); // 회원가입 모달을 열기 위한 플래그
+        return "index"; // index.html을 반환
+    }
      
-    //  localhost:8080/api/v1/user/join
+    // 회원가입 
+    // localhost:8080/api/v1/user/join
      @PostMapping("/join")
-     public String join(@ModelAttribute UserDto dto){
+     public ResponseEntity<String> join(@ModelAttribute UserDto dto){
         log.info("[UserController][join]" + dto.toString());
         try {
             userService.joinUser(dto);
+            return ResponseEntity.ok("가입 성공");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return "redirect:/index";
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("가입 실패");
+
      }
 
      /*

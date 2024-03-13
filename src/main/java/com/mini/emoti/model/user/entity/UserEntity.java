@@ -67,5 +67,6 @@ public class UserEntity {
     // 로그인 유무
     @Column(columnDefinition = "tinyint(1) default 0")
     private Boolean isLogin;
+    
 
 }

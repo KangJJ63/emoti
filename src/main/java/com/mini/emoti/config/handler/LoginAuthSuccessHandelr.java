@@ -34,6 +34,7 @@ public class LoginAuthSuccessHandelr extends SimpleUrlAuthenticationSuccessHandl
 
         try {
             userService.updateIsLoginByEmail(userDetails.getUsername(), true);
+            // response.sendRedirect("");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

@@ -34,8 +34,8 @@ public class LogoutAuthSuccessHandler implements LogoutSuccessHandler{
             e.printStackTrace();
         }
 
-        // 로그아웃 -> 로그인페이지로 이동 
-        response.sendRedirect("/loginPage");
+        // 로그아웃 -> index로 이동 
+        response.sendRedirect("/index");
         
     }
     
