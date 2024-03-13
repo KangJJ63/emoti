@@ -47,7 +47,7 @@ public class UserController {
      public String loginPage(@RequestParam(value = "errorMessage", required = false)String errorMessage, Model model){
         model.addAttribute("errorMessage", errorMessage);
 
-        return "loginPage";
+        return "login/loginPage";
 
      }
 
