@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../../static/css/styles.css">
 </head>
 <body>
-    <h1>신규 회원 화면</h1>
-    <form action="/join" method="post">
-        <input type="text" name="name" placeholder="아이디를 입력해주세요." />
-        <br />
-        <input type="password" name="pwd" placeholder="비밀번호를 입력해주세요." />
-        <br />
-        <input type="email" name="email" placeholder="이메일 주소를 입력해주세요." />
-        <br />
-        <input type="submit" value="회원가입" />
-    </form>
-    <a href="/loginPage">로그인 화면 이동</a>
+    <div class="signUpPage"> <!-- 화면 중앙에 위치하기 위한 div 추가 -->
+        <form class="signUpForm" action="/join" method="post">
+            <h2>회원가입</h2>   
+            <!-- name은 userEntity를 따름 -->
+            <input class="signUpNickname" type="text" name="nickname" placeholder="아이디" required>
+            <input class="signUpEmail" type="email" name="email" placeholder="이메일" required>
+            <input class="signUpPassword" type="password" name="password" placeholder="비밀번호" required>
+            <input class="signUpPasswordCheck" type="password" name="pwdCheck" placeholder="비밀번호 확인" required>
+            <input class="signUpSubmit" type="submit" value="회원가입">
+        </form> 
+    </div> <!-- 중앙 정렬을 위한 div 종료 -->
 </body>
 </html>
