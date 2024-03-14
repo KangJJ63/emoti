@@ -35,6 +35,7 @@ public class AuthProvider implements AuthenticationProvider {
 
         String email= authentication.getName(); // ID
 		String pwd= (String)authentication.getCredentials(); //PW
+        
         log.info("email: "+email+" / pwd: "+pwd);
 
         // ID 검증 
@@ -44,7 +45,7 @@ public class AuthProvider implements AuthenticationProvider {
         }
         // PW 검증 
         else if (isNotMatches(pwd, userDetails.getPassword())) {
-            throw new BadCredentialsException("Your password is incorrect.");
+            throw new BadCredentialsException("Your password is incorrect. real -> "+userDetails.getPassword());
         }
 
         return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());

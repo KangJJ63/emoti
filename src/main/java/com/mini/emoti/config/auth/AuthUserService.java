@@ -21,6 +21,7 @@ public class AuthUserService implements UserDetailsService{
     private UserRepository userRepository;
 
     @Override
+    // email 이 아이디므로 email을 기준으로 load
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // TODO Auto-generated method stub
         UserEntity entity = userRepository.findByEmail(email);

@@ -48,8 +48,7 @@ public class UserController {
      @GetMapping("/loginPage")
      public String loginPage(@RequestParam(value = "errorMessage", required = false)String errorMessage, Model model){
         model.addAttribute("errorMessage", errorMessage);
-        model.addAttribute("openLogin", true);
-        return "index";
+        return "login/loginPage";
 
      }
 
@@ -57,24 +56,35 @@ public class UserController {
      @GetMapping("/joinPage")
      public String joinPage(Model model){
         model.addAttribute("openJoinModal", true); // 회원가입 모달을 열기 위한 플래그
-        return "index"; // index.html을 반환
+        return "login/joinPage"; 
     }
      
     // 회원가입 
     // localhost:8080/api/v1/user/join
-     @PostMapping("/join")
-     public ResponseEntity<String> join(@ModelAttribute UserDto dto){
-        log.info("[UserController][join]" + dto.toString());
+    //  @PostMapping("/join")
+    //  public ResponseEntity<String> join(@ModelAttribute UserDto dto){
+    //     log.info("[UserController][join]" + dto.toString());
+    //     try {
+    //         userService.joinUser(dto);
+    //         return ResponseEntity.ok("가입 성공");
+    //     } catch (Exception e) {
+    //         // TODO Auto-generated catch block
+    //         e.printStackTrace();
+    //     }
+    //     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("가입 실패");
+
+    //  }
+
+    @PostMapping("/join")
+    public String join(@ModelAttribute UserDto dto) {
         try {
             userService.joinUser(dto);
-            return ResponseEntity.ok("가입 성공");
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("가입 실패");
-
-     }
+        return "redirect:/loginPage";
+    }
 
      /*
       * 로그인한 경우만 

@@ -76,8 +76,9 @@ public class UserServiceImpl implements UserService{
         String rawPwd = entity.getPassword();
         String encodedPwd = bCryptPasswordEncoder.encode(rawPwd);
         entity.setPassword(encodedPwd);
-
+        
         log.info("[UserServiceImpl][insertUser] - rawPwd : "+rawPwd+" / encodedPwd : "+ encodedPwd);
+        log.info("[UserServiceImpl][insertUser] - entity : "+entity.toString());
         
 
         entity.setIsLogin(false);
