@@ -5,21 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/static/css/login.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 </head>
-<body>
-    <div class="loginpage" id="loginPage"> <!-- 화면 중앙에 위치하기 위한 div 추가 -->
-        <form class="loginForm" action="/login" method="post">
-            <h2>로그인</h2>
-            <input class="loginText" type="text" name="username" placeholder="아이디" required>
-            <input class="loginPassword" type="password" name="password" placeholder="비밀번호" required>
-            <input class="loginSubmit" type="submit" value="로그인">
-            <button class="signup-button"><a href = "/joinPage">회원가입</a></button>
-            <div class="social-login">
-                <img src="/static/img/smile.png" onclick="kakaoLogin()">
-                <img src="/static/img/smile.png" onclick="naverLogin()">
-                <img src="/static/img/smile.png" onclick="googleLogin()">
-            </div>
-        </form>
-    </div>    
-</body>
+    <body>
+        <div class="loginpage" id="loginPage"> <!-- 화면 중앙에 위치하기 위한 div 추가 -->
+            <form class="loginForm" action="/login" method="post"> <!-- axax function 추가 -->
+                <h2>로그인</h2>
+                <input class="loginText" type="text" name="username" placeholder="이메일" required>
+                <input class="loginPassword" type="password" name="password" placeholder="비밀번호" required>
+                <input class="loginSubmit" type="submit" value="로그인">
+                <button class="signup-button" onclick="openJoinPopup()">회원가입</button>
+                <!-- <script>
+                    function openJoinPopup() {
+                        var popup = window.open("/joinPage", "_self");
+                    }
+                </script> -->
+                <script>
+                    function openJoinPopup() {
+                        // Ajax 호출을 통해 joinPage를 가져옴
+                        var xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === 4) {
+                                if (xhr.status === 200) {
+                                    var popupContent = xhr.responseText;
+                                    console.log("popupContent : "+popupContent);
+                                    replaceContent(popupContent);
+                                } else {
+                                    console.error("Failed to load joinPage:", xhr.status);
+                                    // 에러 처리
+                                }
+                            }
+                        };
+                        xhr.open("GET", "/joinPage", true);
+                        xhr.send();
+                    }
+                
+                    function replaceContent(content) {
+                        document.open();
+                        document.write(content);
+                        document.close();
+                    }
+                </script>
+                
+
+                <div class="social-login">
+                    <img src="/static/img/smile.png" onclick="kakaoLogin()">
+                    <img src="/static/img/smile.png" onclick="naverLogin()">
+                    <img src="/static/img/smile.png" onclick="googleLogin()">
+                </div>
+            </form>
+        
+        </div>    
+    </body>
 </html>

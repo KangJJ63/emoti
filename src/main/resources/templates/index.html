@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Gowun+Batang&family=Jua&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">       
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 </head>
 <body>
     <!-- HTML 코드 -->
@@ -17,27 +20,68 @@
     <header>
         <div class="logo">Emoti</div>
         <nav>
-            <!-- 로그인과 내 정보 버튼을 추가하고 오른쪽으로 배치합니다. -->
-            <button class="btn my-account-btn" id="loginModalBtn"><a href ="/loginPage">로그인</a></button>
-            <button class="btn my-account-btn">My Account</button>
+    
+            <!-- 로그인과 내 정보 버튼을 추가하고 오른쪽으로 배치합니다. -->            
+            <button class="btn my-account-btn" onclick="openPopup()">로그인</button>
+            <div class="popup" id="popup">
+                <iframe id="popupFrame" src="" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+                
+            </div>
+            <div class="overlay" id="overlay" onclick="closePopup()"></div>
+            <script>
+                var currentPopup = null;
+            
+                // function openPopup() {
+                //     var popup = document.getElementById("popup");
+                //     var overlay = document.getElementById("overlay");
+                //     popup.style.display = "block";
+                //     overlay.style.display = "block";
+                //     currentPopup = popup;
+
+                //     document.getElementById("popupFrame").src = "/loginPage"; // 두 번째 HTML 페이지를 로드
+                // }
+                
+                function openPopup() {
+                var popup = document.getElementById("popup");
+                var overlay = document.getElementById("overlay");
+                popup.style.display = "block";
+                overlay.style.display = "block";
+                currentPopup = popup;
+                
+                // Ajax 호출을 통해 loginPage를 로드
+                $.ajax({
+                    url: "/loginPage",
+                    method: "GET",
+                    success: function(response) {
+                        // loginPage 내용을 팝업 iframe에 삽입
+                        document.getElementById("popupFrame").srcdoc = response
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Error loading loginPage:", error);
+                        // 에러 처리
+                    }
+                });
+            }
+
+            
+                function closePopup() {
+                    var popup = document.getElementById("popup");
+                    var overlay = document.getElementById("overlay");
+                    popup.style.display = "none";
+                    overlay.style.display = "none";
+                    currentPopup = null;
+                }
+            </script>
+            <button class="btn my-account-btn">My Page</button>
         </nav>
     </header>
-    <!-- 로그인 모달 -->
-    <div id="loginModal" class="modal">
-        <!-- 로그인 모달 내용 -->
-        <div class="modal-content">
-        <span class="close">&times;</span>
-        <div id="loginModalContent">
-            <!-- 로그인 페이지의 내용이 여기에 표시됩니다 -->
-        </div>
-        </div>
-    </div>
-   
+
+
     <section id="section5">
         <br><br>
-        <h2>"고독한 사람을 내버려둬라.<br> 그는 지금 신을 만나고 있다."</h2>
+        <h2>"나는 나의 한계를 안다.<br> 그것이 내가 그 너머로 가는 이유다"</h2>
         <br>
-        <p1>-릴케-</p1>
+        <p1>-세르주 갱스부르-</p1>
         <br><br>
     </section>
     
@@ -272,9 +316,7 @@ displayComments();
 
     </script>
     <br><br><br>
-    </section>
-
-    
-    
+    </section>   
 </body>
 </html>
+<

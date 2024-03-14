@@ -58,7 +58,7 @@ public class UserController {
         model.addAttribute("openJoinModal", true); // 회원가입 모달을 열기 위한 플래그
         return "login/joinPage"; 
     }
-     
+
     // 회원가입 
     // localhost:8080/api/v1/user/join
     //  @PostMapping("/join")
@@ -82,6 +82,7 @@ public class UserController {
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
+
         }
         return "redirect:/loginPage";
     }
