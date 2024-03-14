@@ -35,8 +35,8 @@ public class AuthProvider implements AuthenticationProvider {
 
         String email= authentication.getName(); // ID
 		String pwd= (String)authentication.getCredentials(); //PW
-        
-        log.info("email: "+email+" / pwd: "+pwd);
+
+        log.info("email: "+email+" / pwd: "+pwd); // pwd -> 암호화 전 
 
         // ID 검증 
         UserDetails userDetails = (AuthUserDto)securityUserService.loadUserByUsername(email);
@@ -60,6 +60,7 @@ public class AuthProvider implements AuthenticationProvider {
     }
 
     private boolean isNotMatches(String password, String encodePassword) {
+        log.info("[AuthProvider] : "+bCryptPasswordEncoder.encode(password));
         return !bCryptPasswordEncoder.matches(password, encodePassword);
     }
     
