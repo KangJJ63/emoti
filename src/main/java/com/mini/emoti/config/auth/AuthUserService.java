@@ -6,8 +6,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.mini.emoti.model.entity.UserEntity;
 import com.mini.emoti.model.user.dto.UserDto;
-import com.mini.emoti.model.user.entity.UserEntity;
 import com.mini.emoti.model.user.repository.UserRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ public class AuthUserService implements UserDetailsService{
     // email 이 아이디므로 email을 기준으로 load
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // TODO Auto-generated method stub
-        UserEntity entity = userRepository.findByEmail(email);
+        UserEntity entity = userRepository.findById(email).get();
         UserDto dto = new UserDto();
         
         log.info("[AuthUserService][entity] "+entity);

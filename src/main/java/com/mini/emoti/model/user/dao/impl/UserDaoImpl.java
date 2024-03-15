@@ -3,22 +3,30 @@ package com.mini.emoti.model.user.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mini.emoti.model.entity.UserEntity;
 import com.mini.emoti.model.user.dao.UserDao;
-import com.mini.emoti.model.user.entity.UserEntity;
 import com.mini.emoti.model.user.repository.UserRepository;
 
 @Service
 public class UserDaoImpl implements UserDao {
 
+
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(String email) {
         // TODO Auto-generated method stub
-        userRepository.deleteById(id);
+        userRepository.deleteById(email);
     }
     
+    @Override
+    public UserEntity findByEmail(String email) {
+        // TODO Auto-generated method stub
+        return userRepository.findById(email).get();
+    }
+
+
 
     @Override
     public UserEntity findByNickname(String UserName) {
@@ -49,13 +57,5 @@ public class UserDaoImpl implements UserDao {
         if(entity != null){
         userRepository.save(entity);
         }
-    }
-
-
-    @Override
-    public UserEntity findByEmail(String email) {
-        // TODO Auto-generated method stub
-        return  userRepository.findByEmail(email);
-    }
-    
+    }    
 }

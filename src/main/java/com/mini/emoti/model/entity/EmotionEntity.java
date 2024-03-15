@@ -1,4 +1,4 @@
-package com.mini.emoti.model.emotion.entity;
+package com.mini.emoti.model.entity;
 
 import java.time.LocalDateTime;
 
@@ -6,7 +6,6 @@ import org.springframework.data.annotation.CreatedDate;
 
 import com.mini.emoti.config.BaseEntity;
 import com.mini.emoti.config.constant.EmotionTypes;
-import com.mini.emoti.model.user.entity.UserEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -36,10 +35,11 @@ public class EmotionEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long emotionId;
     @ManyToOne(cascade = CascadeType.ALL) // 다대일 관계 
-    @JoinColumn(name = "user_id") // FK 
-    private UserEntity user;
+    @JoinColumn(name = "user_id") // 컬럼명 
+    private UserEntity users; //테이블 명
     @NotBlank
     private EmotionTypes emotionType; 
+ 
     // @CreatedDate
     // @Column(name = "created_date", updatable = false)
     // private LocalDateTime createdDate;

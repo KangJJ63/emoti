@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.mini.emoti.config.constant.ExceptionConstant;
 import com.mini.emoti.config.error.EmotionException;
+import com.mini.emoti.model.entity.UserEntity;
 import com.mini.emoti.model.user.dao.UserDao;
 import com.mini.emoti.model.user.dto.UserDto;
-import com.mini.emoti.model.user.entity.UserEntity;
 import com.mini.emoti.service.user.UserService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
     public void deleteUser(String userName) throws Exception{
         // TODO Auto-generated method stub
         UserEntity entity = userDao.findByNickname(userName);
-        userDao.deleteUser(entity.getUserId());
+        userDao.deleteUser(entity.getEmail());
 
     }
 

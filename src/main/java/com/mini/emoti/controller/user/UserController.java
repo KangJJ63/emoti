@@ -53,27 +53,19 @@ public class UserController {
      }
 
 
+     @GetMapping("/samplePage")
+     public String samplePage(){
+        return "login/sample";
+
+     }
+
+
      @GetMapping("/joinPage")
      public String joinPage(Model model){
         model.addAttribute("openJoinModal", true); // 회원가입 모달을 열기 위한 플래그
         return "login/joinPage"; 
     }
 
-    // 회원가입 
-    // localhost:8080/api/v1/user/join
-    //  @PostMapping("/join")
-    //  public ResponseEntity<String> join(@ModelAttribute UserDto dto){
-    //     log.info("[UserController][join]" + dto.toString());
-    //     try {
-    //         userService.joinUser(dto);
-    //         return ResponseEntity.ok("가입 성공");
-    //     } catch (Exception e) {
-    //         // TODO Auto-generated catch block
-    //         e.printStackTrace();
-    //     }
-    //     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("가입 실패");
-
-    //  }
 
     @PostMapping("/join")
     public String join(@RequestBody UserDto dto) {

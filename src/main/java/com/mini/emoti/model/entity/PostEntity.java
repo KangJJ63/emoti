@@ -1,9 +1,8 @@
-package com.mini.emoti.model.post.entity;
+package com.mini.emoti.model.entity;
 
 import java.util.List;
 
 import com.mini.emoti.config.BaseEntity;
-import com.mini.emoti.model.user.entity.UserEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,17 +29,21 @@ import lombok.Setter;
 public class PostEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_id")
     private Long postId;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="user_id")
-    private UserEntity user; // FK 
-    @Column(length = 300, name="content")
-    private String content;
-    @PositiveOrZero
-    @Column(name = "licke_cnt", columnDefinition = "int default 0")
-    private int likeCnt;
-    @PositiveOrZero
-    @Column(name = "hate_cnt", columnDefinition = "int default 0")
-    private int hateCnt;
     
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity users; // FK 
+
+    @Column(length = 500, nullable = false)
+    private String content;
+
+    @PositiveOrZero
+    @Column(name = "like_count", columnDefinition = "int default 0")
+    private int likeCount;
+
+    @PositiveOrZero
+    @Column(name = "hate_count",  columnDefinition = "int default 0")
+    private int hateCount;
 }
