@@ -76,7 +76,7 @@ public class UserController {
     //  }
 
     @PostMapping("/join")
-    public String join(@ModelAttribute UserDto dto) {
+    public String join(@RequestBody UserDto dto) {
         try {
             userService.joinUser(dto);
         } catch (Exception e) {
@@ -86,6 +86,18 @@ public class UserController {
         }
         return "redirect:/loginPage";
     }
+
+    // @PostMapping("/join")
+    // public ResponseEntity<String> join(@RequestBody UserDto dto) {
+    //     try {
+    //         // UserService를 사용하여 유저 가입 처리
+    //         userService.joinUser(dto);
+    //         return ResponseEntity.ok().body("회원가입 성공");
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 실패");
+    //     }
+    // }
 
      /*
       * 로그인한 경우만 
