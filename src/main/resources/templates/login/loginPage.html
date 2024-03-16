@@ -48,70 +48,57 @@
                     </form>
                 </div>
                 <script>
-                    function login(event) {
-                        event.preventDefault(); // 폼의 기본 제출 동작 방지
-                
-                        var xhr = new XMLHttpRequest();
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState === 4) {
-                                if (xhr.status === 200) {
-                                    // 로그인이 성공하면 팝업 창을 닫음
-                                    closePopup();
-                                } else {
-                                    console.error("Failed to login:", xhr.status);
-                                    // 로그인 실패시 처리
-                                }
-                            }
-                        };
-                        xhr.open("POST", "/login", true);
-                        var formData = new FormData(document.getElementById("loginForm"));
-                        xhr.send(formData);
-                    }
+                       function login(event) {
+            event.preventDefault(); // 폼의 기본 제출 동작 방지
 
-                    function openJoinPopup() {
-                        // Ajax 호출을 통해 joinPage를 가져옴
-                        var xhr = new XMLHttpRequest();
-                        xhr.onreadystatechange = function() {
-                            if (xhr.readyState === 4) {
-                                if (xhr.status === 200) {
-                                    var popupContent = xhr.responseText;
-                                    console.log("popupContent : "+popupContent);
-                                    replaceContent(popupContent);
-                                } else {
-                                    console.error("Failed to load joinPage:", xhr.status);
-                                    // 에러 처리
-                                }
-                            }
-                        };
-                        xhr.open("GET", "/joinPage", true);
-                        xhr.send();
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        // 로그인이 성공하면 팝업 창을 닫음
+                        closePopup();
+                    } else {
+                        console.error("Failed to login:", xhr.status);
+                        // 로그인 실패시 처리
                     }
-                
-                    function replaceContent(content) {
-                        document.open();
-                        document.write(content);
-                        document.close();
-                    }
-
-                    
-            
-                function closePopup() {
-                    var popup = document.getElementById("popup");
-                    var overlay = document.getElementById("overlay");
-                    popup.style.display = "none";
-                    overlay.style.display = "none";
-                    currentPopup = null;
                 }
-                </script>
-                
+            };
+            xhr.open("POST", "/login", true);
+            var formData = new FormData(document.getElementById("loginForm"));
+            xhr.send(formData);
+        }
 
-                <div class="social-login">
-                    <img src="/static/img/smile.png" onclick="kakaoLogin()">
-                    <img src="/static/img/smile.png" onclick="naverLogin()">
-                    <img src="/static/img/smile.png" onclick="googleLogin()">
-                </div>
-            </form>
-        
-        </div>    
-    </body>
+        function openJoinPopup() {
+            // Ajax 호출을 통해 joinPage를 가져옴
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var popupContent = xhr.responseText;
+                        replaceContent(popupContent);
+                    } else {
+                        console.error("Failed to load joinPage:", xhr.status);
+                        // 에러 처리
+                    }
+                }
+            };
+            xhr.open("GET", "/joinPage", true);
+            xhr.send();
+        }
+
+        function replaceContent(content) {
+            document.open();
+            document.write(content);
+            document.close();
+        }
+
+        function closePopup() {
+            var popup = document.getElementById("popup");
+            var overlay = document.getElementById("overlay");
+            popup.style.display = "none";
+            overlay.style.display = "none";
+        }
+    </script>
+</body>
+
 </html>

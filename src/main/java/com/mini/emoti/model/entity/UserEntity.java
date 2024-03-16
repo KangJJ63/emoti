@@ -9,17 +9,16 @@ import com.mini.emoti.config.BaseEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,14 +31,14 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 @Entity(name = "UserEntity")
-@Table(name = "users")
+@Table (name = "users")
 public class UserEntity extends BaseEntity{
 
-    // email
+       // email
     @Id
     @NotBlank
     @Email(message = "올바른 이메일 형식이 아닙니다.") 
-    @Column(unique = true)
+    // @Column(unique = true)
     private String email; // ID
 
     // nickname
@@ -73,7 +72,7 @@ public class UserEntity extends BaseEntity{
     @Column(columnDefinition = "tinyint(1) default 0")
     private Boolean isLogin;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PostEntity> posts;
     
 

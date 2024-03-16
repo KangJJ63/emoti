@@ -8,8 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.view.RedirectView;
 
-import com.mini.emoti.service.user.UserService;
+import com.mini.emoti.service.UserService;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,9 +41,12 @@ public class LoginAuthSuccessHandelr extends SimpleUrlAuthenticationSuccessHandl
             e.printStackTrace();
         }
         
+        
         // index 페이지로 이동 
-        response.sendRedirect("/user/index");
+        String redirectUrl = "/user/index?login_success=true";
 
+        response.sendRedirect(redirectUrl);
+        
         super.onAuthenticationSuccess(request, response, authentication);
     }
 

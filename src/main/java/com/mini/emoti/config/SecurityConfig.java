@@ -78,6 +78,9 @@ public class SecurityConfig {
          );
 
 
+         http.headers().frameOptions().disable(); // X-Frame-Options 헤더 비활성화
+
+
         //  위에서 설정한 인증 & 인가를 Spring Boot Configuration에 적용
         return http.build();
     }

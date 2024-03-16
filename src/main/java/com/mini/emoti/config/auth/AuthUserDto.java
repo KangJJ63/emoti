@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.mini.emoti.model.user.dto.UserDto;
+import com.mini.emoti.model.dto.UserDto;
 
 import lombok.AllArgsConstructor;
 
