@@ -74,6 +74,9 @@ public class UserEntity extends BaseEntity{
 
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<PostEntity> posts;
+
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<EmotionEntity> emotions;
     
 
 }

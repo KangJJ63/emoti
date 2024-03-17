@@ -16,7 +16,8 @@ import lombok.ToString;
 @ToString
 public class EmotionDto {
     private Long emotionId;
-    private UserEntity user;
-    private EmotionTypes emotionType; 
+    private String email;
+    private String emotionType; 
     
 }
+

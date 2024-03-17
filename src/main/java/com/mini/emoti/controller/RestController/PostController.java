@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/post")
-public class PostRestController {
+public class PostController {
 
 
     @Autowired

@@ -21,6 +21,8 @@ public class UserDaoImpl implements UserDao {
         // 사용자가 존재하고 posts 필드를 사용할 경우 초기화
         if (user != null) {
             user.getPosts().size(); // 이렇게 호출하여 지연 로딩된 컬렉션을 초기화
+            user.getEmotions().size(); // 이렇게 호출하여 지연 로딩된 컬렉션을 초기화
+
         }
         
         return user;
