@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public interface PostDao {
 
     // 게시글 작성 
-    public void writePost(PostEntity entity);
+    public Long writePost(PostEntity entity);
     
     // 게시글 삭제 
     public void deletePost(Long postId);

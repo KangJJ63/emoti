@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public interface PostService {
 
     // 게시글 작성 
-    public void writePost(PostDto dto);
+    public Long writePost(PostDto dto);
     
     // 게시글 삭제 
     public void deletePost(Long postId);

@@ -291,15 +291,27 @@ function displayComments() {
     }
 }
 
-// 페이지 로드 시 댓글 표시
+let postIDList = [];
+
+// 페이지 로드 시 게시글 표시
 fetch('/api/v1/post/user/all')
     .then(response => response.json())
     .then(data => {
         // 서버에서 받은 데이터를 변수에 할당
         console.log("data type: " + typeof data + ", data: ", data);
-
         posts = data;
+        
         console.log("data : "+data);
+
+
+        // postIDList -> 삭제 수정에 사용 
+        data.forEach(post => {
+            postIDList.push(post.postId);
+        
+        });
+    
+        console.log("postIdList : "+postIDList);
+        
         if(data != null){
         displayComments();
         } // 댓글을 표시하는 함수 호출
@@ -343,13 +355,13 @@ function addAdditionalData(event) {
         data.forEach(post => {
             // post는 Map<String, String> 형식의 데이터
             const email = post.email;
-            let author, content;
+            let author, content, postId;
 
 
             try {
                 author = data[0].nickname;
-                // AJAX 요청을 보내서 이메일에 해당하는 닉네임 가져오기
-                // 이 부분은 실제로 서버에서 처리되어야 합니다.
+                postId = data[0].postId; //String -> Long
+
             } catch (error) {
                 author = null;
                 console.error(error);
@@ -366,10 +378,14 @@ function addAdditionalData(event) {
                 content: content
             };
 
+            postIDList.unshift(postId);
+
             
             posts.unshift(postData);
 
             console.log("new posts : "+posts)
+            console.log("new postIDList : "+postIDList)
+
         });
 
         displayComments(); // 댓글 표시를 업데이트
@@ -445,19 +461,21 @@ function editComment(index) {
 }
 
 // 수정 API
-function saveEdit(index) {
-    const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
-    const editedContent = commentElement.querySelector('.edit-content').value;
-    
-    // const postId = /* 게시물의 ID를 여기에 가져오는 코드 */;
-    
+function saveEditApi(index, editedContent) {
+
+    console.log("saveEditApi [info] : "+posts[index].email)
     // 서버로 수정된 내용을 전송
-    fetch(`/api/v1/post/user/update/${postId}`, {
+    console.log("saveEditApi index : "+index+" "+posts[index].postId,posts[index].email)
+    fetch(`/api/v1/post/user/update/${postIDList[index]}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ content: editedContent })
+        body: JSON.stringify({ 
+            postId: postIDList[index],
+            content: editedContent,
+            email : posts[index].email
+        }) // body 객체의 JSON.stringify() 메서드가 닫는 괄호에 위치해야 합니다.
     })
     .then(response => {
         if (!response.ok) {
@@ -482,7 +500,8 @@ function saveEdit(index) {
     // 수정 완료 후 수정 폼 제거
     const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
     commentElement.removeChild(commentElement.querySelector('.edit-form'));
-
+    // 댓글 수정 
+    saveEditApi(index, editedContent)
     // 다시 댓글 표시
     displayComments();
 }

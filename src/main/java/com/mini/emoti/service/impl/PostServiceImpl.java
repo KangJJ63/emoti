@@ -62,9 +62,8 @@ public class PostServiceImpl implements PostService{
         postDao.updatePost(postEntity);
                 
     }
-
     @Override
-    public void writePost(PostDto dto) {
+    public Long writePost(PostDto dto) {
         // TODO Auto-generated method stub
         if(dto != null){
         PostEntity entity = new PostEntity();
@@ -73,10 +72,13 @@ public class PostServiceImpl implements PostService{
         entity.setLikeCount(dto.getLikeCnt());
         entity.setUsers(userDao.findByEmail(dto.getEmail()));
 
-        postDao.writePost(entity);
+        Long postId = postDao.writePost(entity);
+        return postId;
         }else{
             log.info("[PostServiceImpl][writePost] ERROR " + dto.toString());
+            return 0L;
         }
+       
     
     }
 

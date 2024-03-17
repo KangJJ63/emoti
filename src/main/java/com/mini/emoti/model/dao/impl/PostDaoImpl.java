@@ -54,9 +54,10 @@ public class PostDaoImpl implements PostDao {
     }
 
     @Override
-    public void writePost(PostEntity entity) {
+    public Long writePost(PostEntity entity) {
         // TODO Auto-generated method stub
-        postRepository.save(entity);
+        PostEntity savedPost = postRepository.save(entity);
+        return savedPost.getPostId();
     }
 
     @Override
