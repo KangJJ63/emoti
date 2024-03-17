@@ -18,7 +18,7 @@
 
 
     <script>
- 
+
 
         function autoClickOnCurrentPage() {
             document.body.click(); // 현재 페이지를 클릭함
@@ -36,6 +36,14 @@
     </script>
 
 
+
+
+<style>
+    /* 선택된 이미지의 배경색을 변경하는 CSS */
+    .selected {
+        background-color: lightblue;
+    }
+</style>
 
 
 </head>
@@ -164,7 +172,15 @@
                 currentPopup = null;
             }
 
+            const Emotions = {
+                "1": "HAPPY",
+                "2": "CALM",
+                "3": "SURPRISE",
+                "4": "SAD",
+                "5": "ANGRY"
+            };
 
+            
 
         </script>
         <br><br>
@@ -177,23 +193,23 @@
         <p>오늘은 기분이 어떠신가요?</p>
         <br><br>
         <div class="image-container">
-            <figure onclick="showCaption('행복')">
+            <figure onclick="postEmotion(Emotions['1']), this">
                 <img src="/static/img/행복.png" alt="이미지 1" style="width: 100px; height: auto;">
                 <figcaption>행복</figcaption>
             </figure>
-            <figure>
+            <figure onclick="postEmotion(Emotions['2']), this">
                 <img src="/static/img/평온.png" alt="이미지 2" style="width: 100px; height: auto;">
                 <figcaption>평온</figcaption>
             </figure>
-            <figure>
+            <figure onclick="postEmotion(Emotions['3']), this">
                 <img src="/static/img/놀람.png" alt="이미지 3" style="width: 100px; height: auto;">
                 <figcaption>놀람</figcaption>
             </figure>
-            <figure>
+            <figure onclick="postEmotion(Emotions['4']), this">
                 <img src="/static/img/슬픔.png" alt="이미지 4" style="width: 100px; height: auto;">
                 <figcaption>슬픔</figcaption>
             </figure>
-            <figure>
+            <figure onclick="postEmotion(Emotions['5']), this">
                 <img src="/static/img/화남.png" alt="이미지 5" style="width: 100px; height: auto;">
                 <figcaption>화남</figcaption>
             </figure>
@@ -202,9 +218,64 @@
         <br><br><br>
     </section>
     <script>
+
         function showCaption(caption) {
             alert(caption);
         }
+        function postEmotion(emotion, element) {
+            const email = document.getElementById('username').textContent.trim();
+
+            // JSON 형식의 데이터
+            var jsonData = {
+                "email": email,
+                "emotionType": emotion
+            };
+
+            document.querySelectorAll('.image-container figure').forEach(item => {
+            item.classList.remove('selected');
+            });
+            element.classList.add('selected');
+
+
+
+            // XMLHttpRequest를 이용하여 POST 요청 생성
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/api/v1/emotion/insert", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            // JSON 데이터를 문자열로 변환하여 요청 본문에 포함
+            xhr.send(JSON.stringify(jsonData));
+
+            // 요청 완료 시 콘솔에 메시지 출력
+            xhr.onload = function () {
+                if (xhr.status == 200) {
+                    console.log("요청이 성공적으로 완료되었습니다.");
+                    showAlert(emotion)
+                } else {
+                    console.error("요청 중 오류가 발생했습니다.");
+                }
+            };
+        }
+
+        function showAlert(message) {
+        var alertDiv = document.createElement('div');
+        alertDiv.classList.add('alert');
+        alertDiv.textContent = message;
+        document.body.appendChild(alertDiv);
+
+        // 3초 후에 알림을 숨김
+        setTimeout(function () {
+            alertDiv.style.display = 'none';
+        }, 3000);
+    }
+
+    document.querySelectorAll('.image-container figure').forEach(item => {
+        item.addEventListener('click', function () {
+            var emotion = this.querySelector('figcaption').textContent;
+            postEmotion(emotion);
+        });
+    });
+
     </script>
 
 
@@ -479,10 +550,10 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        postId: postIDList[index],       
+                        postId: postIDList[index],
                         content: editedContent,
                         email: posts[index].email
-                    }) 
+                    })
                 })
                     .then(response => {
                         if (!response.ok) {

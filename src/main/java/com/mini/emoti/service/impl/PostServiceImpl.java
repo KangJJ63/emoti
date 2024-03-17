@@ -75,7 +75,7 @@ public class PostServiceImpl implements PostService{
         Long postId = postDao.writePost(entity);
         return postId;
         }else{
-            log.info("[PostServiceImpl][writePost] ERROR " + dto.toString());
+            // log.info("[PostServiceImpl][writePost] ERROR " + dto.toString());
             return 0L;
         }
        

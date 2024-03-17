@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService{
         entity.setPassword(encodedPwd);
         
         log.info("[UserServiceImpl][insertUser] - rawPwd : "+rawPwd+" / encodedPwd : "+ encodedPwd);
-        log.info("[UserServiceImpl][insertUser] - entity : "+entity.toString());
+        // log.info("[UserServiceImpl][insertUser] - entity : "+entity.toString());
         
 
         entity.setIsLogin(false);

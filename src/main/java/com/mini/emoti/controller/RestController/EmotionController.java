@@ -31,9 +31,10 @@ public class EmotionController {
     // 감정 조회
     // localhost:8080/api/v1/emotion/find/{emotionId}
     @GetMapping("/find/{emotionId}")
-    public String findByEmotionId(@PathVariable("emotionId") Long emotionId) {
+    public EmotionDto findByEmotionId(@PathVariable("emotionId") Long emotionId) {
         EmotionDto dto = emotionService.findByEmotionId(emotionId);
-        return dto.toString();
+        return dto;
+        // return dto.toString();
     }
 
     // 감정 삭제
@@ -58,15 +59,7 @@ public class EmotionController {
 
     }
 
-    /*
-     * [
-     * {
-     * "emotionId": null,
-     * "email": null,
-     * "emotionType": "SAD"
-     * },
-     * .. ]
-     */
+    
     // 유저별 감정 데이터 조회
     @GetMapping("/user/{email}")
     public List<EmotionDto> findByEmailEmotion(@PathVariable("email") String email) {

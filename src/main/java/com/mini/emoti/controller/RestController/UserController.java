@@ -67,9 +67,9 @@ public RedirectView join(@ModelAttribute UserDto dto) {
     // 유저 조회
     // localhost:8080/api/v1/user/{userName}
     @GetMapping("/user/{userName}")
-    public ResponseEntity<String> selectUser(@PathVariable("userName") String userName) throws Exception {
-        
-        return ResponseEntity.ok(userService.findByUserName(userName).toString());
+    public UserDto selectUser(@PathVariable("userName") String userName) throws Exception {
+        return userService.findByUserName(userName);
+        // return ResponseEntity.ok(userService.findByUserName(userName).toString());
     }
 
     // 삭제
