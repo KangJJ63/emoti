@@ -78,5 +78,10 @@ public class UserEntity extends BaseEntity{
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<EmotionEntity> emotions;
     
+    @Override
+    public String toString() {
+    return "UserEntity{id=" + email + ", name=" + nickname + "}"; // 예시로 필요한 정보만 반환하도록 수정
+}
+
 
 }
