@@ -75,6 +75,13 @@ public class PostRestController {
         postService.updatePost(dto, postId);
         return ResponseEntity.ok("수정 성공");
     }
+    
+    // 게시글 조회 
+    @GetMapping("/user/view/{postid}")
+    public PostDto findById(@PathVariable("postId") Long postId){
+        PostDto dto = postService.findById(postId);
+        return dto;
+    }
 
     // 전체 게시글 조회 
     @GetMapping("/user/all")
