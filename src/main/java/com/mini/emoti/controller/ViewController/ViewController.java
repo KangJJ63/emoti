@@ -39,6 +39,10 @@ public class ViewController {
       return "login/join"; 
     }
 
+    @GetMapping("/close")
+    public String close() {
+        return "close";
+    }
     
        /*
       * 로그인한 경우만 

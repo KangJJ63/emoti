@@ -18,20 +18,7 @@
 
 
     <script>
-        //     // 인덱스 페이지 로딩 시 실행
-        //     window.onload = function() {
-        //     const urlParams = new URLSearchParams(window.location.search);
-        //     const login_success = urlParams.get('login_success');
-        //     console.log("login_success : " + login_success)
-
-        //     if (login_success === 'true') {
-        //         var popup = document.getElementById("popup"); 
-        //         var overlay = document.getElementById("overlay"); // 수정: "overlay"로 변경
-        //         popup.style.display = "none";
-        //         overlay.style.display = "none";
-        //         window.location.href = "http://localhost:8080/user/index";
-        //     }
-        // };
+ 
 
         function autoClickOnCurrentPage() {
             document.body.click(); // 현재 페이지를 클릭함
@@ -45,15 +32,6 @@
             // closeModalOnOtherPage();
         };
 
-        function closeModalOnOtherPage() {
-            // 다른 페이지의 closeModal 함수를 호출하여 모달을 닫습니다.
-            const otherWindow = window.open('http://localhost:8080/index"', '_blank'); // 다른 페이지를 엽니다.
-            if (otherWindow) {
-                otherWindow.closePopup(); // 다른 페이지의 closeModal 함수를 호출합니다.
-            } else {
-                alert('팝업 차단을 해제하거나, 다른 페이지가 열리지 않았습니다.');
-            }
-        }
 
     </script>
 
@@ -501,7 +479,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        postId: postIDList[index],
+                        postId: postIDList[index],       
                         content: editedContent,
                         email: posts[index].email
                     }) 
