@@ -64,6 +64,13 @@ public class ViewController {
          return "member/mypage";
        }
 
+       @GetMapping("/graph")
+       public String graph(){
+          // UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+          // model.addAttribute("username", userDetails.getUsername());
+          return "member/graphs";
+        }
+
 
 
 

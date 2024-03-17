@@ -58,7 +58,7 @@
             <!-- 로그인과 내 정보 버튼을 추가하고 오른쪽으로 배치합니다. -->
             <button class="btn my-account-btn" onclick="logout()">로그아웃</button>
             <!-- <button class="btn my-account-btn" onclick="/user/mypage">{{username}} Page</button> -->
-            <button class="btn my-account-btn" onclick="redirectToUserPage('/user/mypage')">{{username}} Page</button>
+            <button class="btn my-account-btn" onclick="redirectToUserPage('/user/mypage')">MY Page</button>
 
         </nav>
     </header>
@@ -146,7 +146,7 @@
         <p id="emotionText">오늘 우리는 맑음^^</p>
         <br><br>
         <!-- 기존 이미지 대신 버튼 추가 -->
-        <figure>
+        <figure onclick="openGraphPopup()">
             <img id="emotionImage" src="/static/img/smile.png" alt="이미지 1" style="width: 200px; height: auto;">
         </figure>
         <div class="graph-popup" id="graphPopup">
@@ -209,7 +209,7 @@
             popup.style.display = "block";
             overlay.style.display = "block";
             currentPopup = popup;
-            document.getElementById("graphPopupFrame").src = "graphs.html"; // 두 번째 HTML 페이지를 로드
+            document.getElementById("graphPopupFrame").src = "/graph"; // 두 번째 HTML 페이지를 로드
         }
 
         function closeGraphPopup() {

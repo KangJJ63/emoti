@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
@@ -9,27 +9,24 @@
             font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
-            flex-direction: column;
             align-items: center;
+            flex-direction: column;
         }
         .graph-container {
             display: flex;
-            justify-content: space-around;
+            justify-content: center; /* 중앙 정렬 */
             flex-wrap: wrap;
         }
         .graph {
-            flex-basis: calc(50% - 20px);
-            max-width: calc(50% - 20px);
-            box-sizing: border-box;
+            flex-basis: 400px;
             margin: 10px;
         }
         canvas {
             width: 100% !important;
-            max-width: 400px;
             height: auto !important;
+            max-width: 400px;
         }
         h2 {
-            width: 100%;
             text-align: center;
             margin: 20px 0;
         }
@@ -51,11 +48,11 @@
 
 <script>
 const colors = {
-    '행복': 'blue',
-    '놀람': 'yellow',
-    '보통': 'green',
-    '슬픔': 'grey',
-    '분노': 'red'
+    '행복': '#FDE56C',
+    '놀람': '#32B3D6',
+    '보통': '#8FE22F',
+    '슬픔': '#254EDB',
+    '분노': '#FC532D'
 };
 
 const dailyEmotionData = {
@@ -132,4 +129,4 @@ const overallEmotionChart = new Chart(ctx2, {
 </script>
 
 </body>
-</html> -->
+</html>
