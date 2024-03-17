@@ -67,6 +67,7 @@ public class PostRestController {
     
     // 게시글 삭제 
     @DeleteMapping("/user/delete/{postId}")
+    
     public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId){
         postService.deletePost(postId);
         return ResponseEntity.ok("삭제 성공");
@@ -74,10 +75,11 @@ public class PostRestController {
 
     // 게시글 수정 
     @PostMapping("/user/update/{postId}")
-    public void updatePost(@Valid @RequestBody PostDto dto,
+    public ResponseEntity<String> updatePost(@Valid @RequestBody PostDto dto,
                                             @PathVariable("postId") Long postId ){
         postService.updatePost(dto, postId);
-        // return ResponseEntity.ok("수정 성공");
+        
+        return ResponseEntity.ok().body("수정 성공");
     }
     
     // 게시글 조회 

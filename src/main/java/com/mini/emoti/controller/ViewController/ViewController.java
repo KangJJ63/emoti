@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class UserController {
+public class ViewController {
     
         
     /*
@@ -51,6 +51,16 @@ public class UserController {
         model.addAttribute("username", userDetails.getUsername());
         return "member/index";
       }
+
+      @GetMapping("user/mypage")
+      public String mypage(Authentication authentication, Model model){
+
+         // UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+         // model.addAttribute("username", userDetails.getUsername());
+         return "member/mypage";
+       }
+
+
 
 
 }

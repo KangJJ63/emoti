@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,35 +9,39 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Gowun+Batang&family=Jua&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">       
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Jua&family=Nanum+Myeongjo:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Gowun+Batang&family=Jua&family=Nanum+Myeongjo:wght@400;700&display=swap"
+        rel="stylesheet">
 
-    
+
     <script>
-    //     // 인덱스 페이지 로딩 시 실행
-    //     window.onload = function() {
-    //     const urlParams = new URLSearchParams(window.location.search);
-    //     const login_success = urlParams.get('login_success');
-    //     console.log("login_success : " + login_success)
+        //     // 인덱스 페이지 로딩 시 실행
+        //     window.onload = function() {
+        //     const urlParams = new URLSearchParams(window.location.search);
+        //     const login_success = urlParams.get('login_success');
+        //     console.log("login_success : " + login_success)
 
-    //     if (login_success === 'true') {
-    //         var popup = document.getElementById("popup"); 
-    //         var overlay = document.getElementById("overlay"); // 수정: "overlay"로 변경
-    //         popup.style.display = "none";
-    //         overlay.style.display = "none";
-    //         window.location.href = "http://localhost:8080/user/index";
-    //     }
-    // };
+        //     if (login_success === 'true') {
+        //         var popup = document.getElementById("popup"); 
+        //         var overlay = document.getElementById("overlay"); // 수정: "overlay"로 변경
+        //         popup.style.display = "none";
+        //         overlay.style.display = "none";
+        //         window.location.href = "http://localhost:8080/user/index";
+        //     }
+        // };
 
-    function autoClickOnCurrentPage() {
+        function autoClickOnCurrentPage() {
             document.body.click(); // 현재 페이지를 클릭함
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             autoClickOnCurrentPage(); // 페이지 로드 후 한 번 자동 클릭
         });
-        
-        window.onload = function() {
+
+        window.onload = function () {
             // closeModalOnOtherPage();
         };
 
@@ -52,10 +57,11 @@
 
     </script>
 
-    
+
 
 
 </head>
+
 <body>
     <!-- HTML 코드 -->
     <div class="logo">Emoti</div>
@@ -63,11 +69,34 @@
         <div class="logo">Emoti</div>
         <nav>
             <!-- 로그인과 내 정보 버튼을 추가하고 오른쪽으로 배치합니다. -->
-            <button class="btn my-account-btn"><a href="/logout">로그아웃</a></button>
-            <button class="btn my-account-btn">{{username}} Page</button>
+            <button class="btn my-account-btn" onclick="logout()">로그아웃</button>
+            <!-- <button class="btn my-account-btn" onclick="/user/mypage">{{username}} Page</button> -->
+            <button class="btn my-account-btn" onclick="redirectToUserPage('/user/mypage')">{{username}} Page</button>
+
         </nav>
     </header>
 
+    <script>
+
+        function redirectToUserPage(url) {
+            window.location.href = url;
+        }
+
+        function logout() {
+            fetch(`/logout`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('로그아웃 실패');
+                    }
+                    // 로그아웃에 성공하면 홈페이지로 리디렉션
+                    window.location.href = '/';
+                })
+                .catch(error => {
+                    console.error('로그아웃 중 오류 발생:', error);
+                    // 오류가 발생한 경우 사용자에게 알림을 표시할 수 있습니다.
+                });
+        }
+    </script>
 
     <section id="section5">
         <br><br>
@@ -80,42 +109,42 @@
     <script>
         // 30개의 명언 및 저자 목록
         const quotes = [
-            {quote: "행복은 인생의 목적이 아니라 인생을 사는 방법이다.", author: "알버트 아인슈타인"},
-            {quote: "행복은 우리가 사는 방식에 달려있다.", author: "댈 카네기"},
-            {quote: "성공은 준비된 사람이 온다.", author: "제이크 노튼"},
-            {quote: "최고의 복은 다른 사람을 행복하게 하는 것이다.", author: "알버트 슈바이처"},
-            {quote: "당신이 할 수 있다고 믿든 할 수 없다고 믿든, 확실해진다.", author: "헨리 포드"},
-            {quote: "매일 매일이 새로운 학습이다.", author: "제이크 노튼"},
-            {quote: "성공의 열쇠는 무엇보다도 열정이다.", author: "아노니무스"},
-            {quote: "어려운 시간을 견디고 이겨낼 수 있는 사람은 이기는 사람이다.", author: "로버트 H. 슐러"},
-            {quote: "가장 좋은 시간은 지금이다.", author: "안드레 쥬이르"},
-            {quote: "가장 어두운 밤이 가장 처음에 등장하는 해를 기다린다.", author: "안토니 데미로스"},
-            {quote: "당신이 매일 무엇을 결정하는가가 중요하다. 올바른 것을 선택하면 행복해질 것이다.", author: "알버트 슈바이처"},
-            {quote: "어제는 역사이고, 내일은 미스테리이다. 오늘은 선물이다.", author: "빌 키어"},
-            {quote: "길이 있는 사람은 반드시 간다.", author: "한니발"},
-            {quote: "성공은 짧은 시간에 오지 않는다.", author: "윌리엄 셰익스피어"},
-            {quote: "용기는 두려움이 끝나는 그 순간까지만 필요하다.", author: "엘리너 루즈벨트"},
-            {quote: "성공은 간단한 것이다. 근면이나 노력이란 없다. 단지 어떻게 인내심을 가지고 기다리는가의 문제일 뿐이다.", author: "소포클레스"},
-            {quote: "성공의 비결은 단 한 가지, 그것이 열정이다.", author: "팔로알토"},
-            {quote: "어제의 꿈은 오늘의 목표이고, 오늘의 노력은 내일의 성취이다.", author: "로버트 셩스토리"},
-            {quote: "평범한 것을 행하는 것이 성공의 첫 걸음이다.", author: "윌리엄 제임스"},
-            {quote: "사람은 생각하는 대로 된다.", author: "브루스 리 린든"},
-            {quote: "행복한 시간을 가져야 할 용기가 있는 사람은 그 시간이 두 배로 행복하다.", author: "세네카"},
-            {quote: "가장 어두운 밤이 가장 처음에 등장하는 해를 기다린다.", author: "안토니 데미로스"},
-            {quote: "내일의 운명은 오늘의 선택에 달려 있다.", author: "알베르 카뮈"},
-            {quote: "성공은 주어지는 것이 아니라 노력해서 얻어진다.", author: "다윈"},
-            {quote: "열정은 인내와 노력을 이긴다.", author: "미셸 피카르"},
-            {quote: "모든 일에는 두려움이 있는데, 그것을 이기는 사람만이 진정으로 성공할 수 있다.", author: "하비 파이어스톤"},
-            {quote: "어떤 문제든지 해결책은 하나다. 그것은 끝까지 버텨내는 힘이다.", author: "나폴레옹 힐"},
-            {quote: "인생에서 두 번의 실패는 삶의 더 큰 승리를 가져온다.", author: "콜린 파월"},
-            {quote: "우리는 항상 최선을 다해야 한다. 그리고 그것은 우리의 주요한 의무이다.", author: "윈스턴 처칠"},
-            {quote: "계획없는 목표는 바람에 밀려 조종이 불가능하다.", author: "슈페이어"},
-            {quote: "계획을 세우는 것은 목표를 가진 사람에게 특별한 도구를 제공한다.", author: "크리스토퍼 마지너스"},
-            {quote: "나는 나의 한계를 안다. 그것이 내가 그 너머로 가는 이유다.", author: "-세르주 갱스부르-"},
+            { quote: "행복은 인생의 목적이 아니라 인생을 사는 방법이다.", author: "알버트 아인슈타인" },
+            { quote: "행복은 우리가 사는 방식에 달려있다.", author: "댈 카네기" },
+            { quote: "성공은 준비된 사람이 온다.", author: "제이크 노튼" },
+            { quote: "최고의 복은 다른 사람을 행복하게 하는 것이다.", author: "알버트 슈바이처" },
+            { quote: "당신이 할 수 있다고 믿든 할 수 없다고 믿든, 확실해진다.", author: "헨리 포드" },
+            { quote: "매일 매일이 새로운 학습이다.", author: "제이크 노튼" },
+            { quote: "성공의 열쇠는 무엇보다도 열정이다.", author: "아노니무스" },
+            { quote: "어려운 시간을 견디고 이겨낼 수 있는 사람은 이기는 사람이다.", author: "로버트 H. 슐러" },
+            { quote: "가장 좋은 시간은 지금이다.", author: "안드레 쥬이르" },
+            { quote: "가장 어두운 밤이 가장 처음에 등장하는 해를 기다린다.", author: "안토니 데미로스" },
+            { quote: "당신이 매일 무엇을 결정하는가가 중요하다. 올바른 것을 선택하면 행복해질 것이다.", author: "알버트 슈바이처" },
+            { quote: "어제는 역사이고, 내일은 미스테리이다. 오늘은 선물이다.", author: "빌 키어" },
+            { quote: "길이 있는 사람은 반드시 간다.", author: "한니발" },
+            { quote: "성공은 짧은 시간에 오지 않는다.", author: "윌리엄 셰익스피어" },
+            { quote: "용기는 두려움이 끝나는 그 순간까지만 필요하다.", author: "엘리너 루즈벨트" },
+            { quote: "성공은 간단한 것이다. 근면이나 노력이란 없다. 단지 어떻게 인내심을 가지고 기다리는가의 문제일 뿐이다.", author: "소포클레스" },
+            { quote: "성공의 비결은 단 한 가지, 그것이 열정이다.", author: "팔로알토" },
+            { quote: "어제의 꿈은 오늘의 목표이고, 오늘의 노력은 내일의 성취이다.", author: "로버트 셩스토리" },
+            { quote: "평범한 것을 행하는 것이 성공의 첫 걸음이다.", author: "윌리엄 제임스" },
+            { quote: "사람은 생각하는 대로 된다.", author: "브루스 리 린든" },
+            { quote: "행복한 시간을 가져야 할 용기가 있는 사람은 그 시간이 두 배로 행복하다.", author: "세네카" },
+            { quote: "가장 어두운 밤이 가장 처음에 등장하는 해를 기다린다.", author: "안토니 데미로스" },
+            { quote: "내일의 운명은 오늘의 선택에 달려 있다.", author: "알베르 카뮈" },
+            { quote: "성공은 주어지는 것이 아니라 노력해서 얻어진다.", author: "다윈" },
+            { quote: "열정은 인내와 노력을 이긴다.", author: "미셸 피카르" },
+            { quote: "모든 일에는 두려움이 있는데, 그것을 이기는 사람만이 진정으로 성공할 수 있다.", author: "하비 파이어스톤" },
+            { quote: "어떤 문제든지 해결책은 하나다. 그것은 끝까지 버텨내는 힘이다.", author: "나폴레옹 힐" },
+            { quote: "인생에서 두 번의 실패는 삶의 더 큰 승리를 가져온다.", author: "콜린 파월" },
+            { quote: "우리는 항상 최선을 다해야 한다. 그리고 그것은 우리의 주요한 의무이다.", author: "윈스턴 처칠" },
+            { quote: "계획없는 목표는 바람에 밀려 조종이 불가능하다.", author: "슈페이어" },
+            { quote: "계획을 세우는 것은 목표를 가진 사람에게 특별한 도구를 제공한다.", author: "크리스토퍼 마지너스" },
+            { quote: "나는 나의 한계를 안다. 그것이 내가 그 너머로 가는 이유다.", author: "-세르주 갱스부르-" },
         ];
 
         // 페이지가 로드될 때마다 랜덤한 명언 및 저자를 선택하여 표시
-        window.onload = function() {
+        window.onload = function () {
             const quoteElement = document.getElementById('quote');
             const authorElement = document.getElementById('author');
             const randomIndex = Math.floor(Math.random() * quotes.length);
@@ -123,23 +152,23 @@
             authorElement.innerText = quotes[randomIndex].author;
         };
     </script>
-    
+
     <section id="section1">
         <h2>우리의 기분</h2>
         <p>오늘 우리는 맑음^^</p>
         <br><br>
         <!-- 기존 이미지 대신 버튼 추가 -->
-        <figure >
+        <figure>
             <img src="/static/img/smile.png" alt="이미지 1" style="width: 200px; height: auto;">
         </figure>
         <div class="graph-popup" id="graphPopup">
             <iframe id="graphPopupFrame" src="" frameborder="0" style="width: 100%; height: 100%;"></iframe>
         </div>
         <div class="graph-overlay" id="graphOverlay" onclick="closeGraphPopup()"></div>
-        
+
         <script>
             var currentPopup = null;
-            
+
             function openGraphPopup() {
                 var popup = document.getElementById("graphPopup");
                 var overlay = document.getElementById("graphOverlay");
@@ -148,7 +177,7 @@
                 currentPopup = popup;
                 document.getElementById("graphPopupFrame").src = "graphs.html"; // 두 번째 HTML 페이지를 로드
             }
-            
+
             function closeGraphPopup() {
                 var popup = document.getElementById("graphPopup");
                 var overlay = document.getElementById("graphOverlay");
@@ -157,8 +186,8 @@
                 currentPopup = null;
             }
 
-    
-            
+
+
         </script>
         <br><br>
     </section>
@@ -170,7 +199,7 @@
         <p>오늘은 기분이 어떠신가요?</p>
         <br><br>
         <div class="image-container">
-            <figure  onclick="showCaption('행복')">
+            <figure onclick="showCaption('행복')">
                 <img src="/static/img/행복.png" alt="이미지 1" style="width: 100px; height: auto;">
                 <figcaption>행복</figcaption>
             </figure>
@@ -191,7 +220,7 @@
                 <figcaption>화남</figcaption>
             </figure>
         </div>
-        
+
         <br><br><br>
     </section>
     <script>
@@ -199,14 +228,14 @@
             alert(caption);
         }
     </script>
-    
+
 
     <section id="section3">
         <br><br><br>
         <h2>내 기분이 왜 이럴까?</h2>
         <p>혹시 내 기분에 영향을 미친 일들은 없을까요?</p>
         <br><br>
-        
+
         <div class="sub-section-container">
             <div class="sub-section">
                 <p>날씨</p>
@@ -214,14 +243,14 @@
                 <img src="/static/img/smile.png" alt="이미지 1" style="width: 80px;">
                 <p>맑음</p>
             </div>
-            
+
             <div class="sub-section">
                 <p>날씨</p>
                 <br>
                 <img src="/static/img/smile.png" alt="이미지 1" style="width: 80px;">
                 <p>맑음</p>
             </div>
-            
+
             <div class="sub-section">
                 <p>날씨</p>
                 <br>
@@ -231,11 +260,11 @@
         </div>
         <br><br><br>
     </section>
-    
-    
-    
-    
-    
+
+
+
+
+
 
     <section id="section4">
         <br><br><br>
@@ -246,27 +275,27 @@
             <input type="submit" value="와글와글">
             <span id="username" style="display: none;">{{username}}</span>
 
-        </form>        
+        </form>
 
-   
+
         <script>
-   
-   // 댓글 목록 및 페이지 링크를 표시하는 함수
-function displayComments() {
-    const commentList = document.querySelector('.comments');
-    const pagination = document.querySelector('.pagination');
 
-    commentList.innerHTML = '';
-    pagination.innerHTML = '';
+            // 댓글 목록 및 페이지 링크를 표시하는 함수
+            function displayComments() {
+                const commentList = document.querySelector('.comments');
+                const pagination = document.querySelector('.pagination');
 
-    const startIndex = (currentPage - 1) * commentsPerPage;
-    const endIndex = startIndex + commentsPerPage;
-    const displayedComments = posts.slice(startIndex, endIndex);
+                commentList.innerHTML = '';
+                pagination.innerHTML = '';
 
-    displayedComments.forEach((comment, index) => {
-        const commentElement = document.createElement('div');
-        commentElement.classList.add('comment');
-        commentElement.innerHTML = `
+                const startIndex = (currentPage - 1) * commentsPerPage;
+                const endIndex = startIndex + commentsPerPage;
+                const displayedComments = posts.slice(startIndex, endIndex);
+
+                displayedComments.forEach((comment, index) => {
+                    const commentElement = document.createElement('div');
+                    commentElement.classList.add('comment');
+                    commentElement.innerHTML = `
             <div class="comment-content">
                 <p><span class="comment-author">${comment.author}:</span> ${comment.content}</p>
             </div>
@@ -275,126 +304,126 @@ function displayComments() {
                 <button onclick="deleteComment(${startIndex + index})">삭제</button>
             </div>
         `;
-        commentList.appendChild(commentElement);
-    });
+                    commentList.appendChild(commentElement);
+                });
 
-    const totalPages = Math.ceil(posts.length / commentsPerPage);
-    for (let i = 1; i <= totalPages; i++) {
-        const pageLink = document.createElement('a');
-        pageLink.classList.add('page-link');
-        pageLink.textContent = i;
-        pageLink.addEventListener('click', () => {
-            currentPage = i;
-            displayComments();
-        });
-        pagination.appendChild(pageLink);
-    }
-}
-
-let postIDList = [];
-
-// 페이지 로드 시 게시글 표시
-fetch('/api/v1/post/user/all')
-    .then(response => response.json())
-    .then(data => {
-        // 서버에서 받은 데이터를 변수에 할당
-        console.log("data type: " + typeof data + ", data: ", data);
-        posts = data;
-        
-        console.log("data : "+data);
-
-
-        // postIDList -> 삭제 수정에 사용 
-        data.forEach(post => {
-            postIDList.push(post.postId);
-        
-        });
-    
-        console.log("postIdList : "+postIDList);
-        
-        if(data != null){
-        displayComments();
-        } // 댓글을 표시하는 함수 호출
-    })
-    .catch(error => {
-        console.error('댓글을 불러오는 동안 오류가 발생했습니다:', error);
-    });
-
-// 페이지 로드 시 댓글 표시
-displayComments();
-
-
-
-function addAdditionalData(event) {
-    event.preventDefault(); // 폼 제출 방지
-
-    const username = document.getElementById('username').textContent.trim();
-    const author = null;
-
-    const form = event.target;
-    console.log("form : " + form);
-
-    // 폼 데이터 준비
-    const formData = new FormData(form);
-    formData.append('email', username); 
-
-    // 서버에 비동기적으로 POST 요청 보내기
-    fetch('/api/v1/post/user/write', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('댓글 추가 실패');
-        }
-        return response.json(); 
-    })
-    .then(data => {
-        console.log(data)
-
-        data.forEach(post => {
-            // post는 Map<String, String> 형식의 데이터
-            const email = post.email;
-            let author, content, postId;
-
-
-            try {
-                author = data[0].nickname;
-                postId = data[0].postId; //String -> Long
-
-            } catch (error) {
-                author = null;
-                console.error(error);
+                const totalPages = Math.ceil(posts.length / commentsPerPage);
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageLink = document.createElement('a');
+                    pageLink.classList.add('page-link');
+                    pageLink.textContent = i;
+                    pageLink.addEventListener('click', () => {
+                        currentPage = i;
+                        displayComments();
+                    });
+                    pagination.appendChild(pageLink);
+                }
             }
 
-            content = post.content;
+            let postIDList = [];
 
-            // 데이터를 출력하거나 활용하기
-            console.log("Author: " + author + ", Content: " + content);
+            // 페이지 로드 시 게시글 표시
+            fetch('/api/v1/post/user/all')
+                .then(response => response.json())
+                .then(data => {
+                    // 서버에서 받은 데이터를 변수에 할당
+                    console.log("data type: " + typeof data + ", data: ", data);
+                    posts = data;
 
-            // 댓글 데이터를 Map 형태로 생성하여 리스트에 추가
-            const postData = {
-                author: author,
-                content: content
-            };
+                    console.log("data : " + data);
 
-            postIDList.unshift(postId);
 
-            
-            posts.unshift(postData);
+                    // postIDList -> 삭제 수정에 사용 
+                    data.forEach(post => {
+                        postIDList.push(post.postId);
 
-            console.log("new posts : "+posts)
-            console.log("new postIDList : "+postIDList)
+                    });
 
-        });
+                    console.log("postIdList : " + postIDList);
 
-        displayComments(); // 댓글 표시를 업데이트
-        form.reset(); // 폼의 입력 요소를 초기화
-    })
-    .catch(error => {
-        console.error('오류:', error);
-    });
-}
+                    if (data != null) {
+                        displayComments();
+                    } // 댓글을 표시하는 함수 호출
+                })
+                .catch(error => {
+                    console.error('댓글을 불러오는 동안 오류가 발생했습니다:', error);
+                });
+
+            // 페이지 로드 시 댓글 표시
+            displayComments();
+
+
+
+            function addAdditionalData(event) {
+                event.preventDefault(); // 폼 제출 방지
+
+                const username = document.getElementById('username').textContent.trim();
+                const author = null;
+
+                const form = event.target;
+                console.log("form : " + form);
+
+                // 폼 데이터 준비
+                const formData = new FormData(form);
+                formData.append('email', username);
+
+                // 서버에 비동기적으로 POST 요청 보내기
+                fetch('/api/v1/post/user/write', {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('댓글 추가 실패');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data)
+
+                        data.forEach(post => {
+                            // post는 Map<String, String> 형식의 데이터
+                            const email = post.email;
+                            let author, content, postId;
+
+
+                            try {
+                                author = data[0].nickname;
+                                postId = data[0].postId; //String -> Long
+
+                            } catch (error) {
+                                author = null;
+                                console.error(error);
+                            }
+
+                            content = post.content;
+
+                            // 데이터를 출력하거나 활용하기
+                            console.log("Author: " + author + ", Content: " + content);
+
+                            // 댓글 데이터를 Map 형태로 생성하여 리스트에 추가
+                            const postData = {
+                                author: author,
+                                content: content
+                            };
+
+                            postIDList.unshift(postId);
+
+
+                            posts.unshift(postData);
+
+                            console.log("new posts : " + posts)
+                            console.log("new postIDList : " + postIDList)
+
+                        });
+
+                        displayComments(); // 댓글 표시를 업데이트
+                        form.reset(); // 폼의 입력 요소를 초기화
+                    })
+                    .catch(error => {
+                        console.error('오류:', error);
+                    });
+            }
         </script>
 
 
@@ -404,137 +433,170 @@ function addAdditionalData(event) {
             <div class="comments"></div>
             <div class="pagination"></div>
         </div>
-    </div>
-    
-    <script>
+        </div>
 
-    // 댓글 데이터 (예시)
-    // const comments = [
-    //     { author: "작성자1", content: "이것은 첫 번째 댓글입니다." },
-    //     { author: "작성자2", content: "두 번째 댓글은 어떨까요?" },
-    //     { author: "작성자3", content: "세 번째 댓글도 추가해보겠습니다." },
-    //     { author: "작성자1", content: "이것은 첫 번째 댓글입니다." },
-    //     { author: "작성자2", content: "두 번째 댓글은 어떨까요?" },
-    //     { author: "작성자3", content: "세 번째 댓글도 추가해보겠습니다." },
-    //     { author: "작성자1", content: "이것은 첫 번째 댓글입니다." },
-    //     { author: "작성자2", content: "두 번째 댓글은 어떨까요?" },
-    //     { author: "작성자3", content: "세 번째 댓글도 추가해보겠습니다." },
-    //     { author: "작성자1", content: "이것은 첫 번째 댓글입니다." },
-    //     { author: "작성자2", content: "두 번째 댓글은 어떨까요?" },
-    //     { author: "작성자3", content: "세 번째 댓글도 추가해보겠습니다." },
-    //     // 추가 댓글 데이터
-    // ];
-    
-    const commentsPerPage = 5; // 한 페이지에 보일 댓글 수
-    let currentPage = 1; // 현재 페이지
-    
-    
+        <script>
 
-// 수정 기능
-function editComment(index) {
-    const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
-    
-    // 이미 수정 폼이 열려 있는지 확인
-    if (commentElement.querySelector('.edit-form')) {
-        return; // 수정 폼이 이미 열려있으면 더 이상 처리하지 않음
-    }
-    
-    const commentContent = commentElement.querySelector('.comment-content');
-    const originalContent = commentContent.querySelector('p').textContent;
+            // 댓글 데이터 (예시)
+            // const comments = [
+            //     { author: "작성자1", content: "이것은 첫 번째 댓글입니다." },
+            //     { author: "작성자2", content: "두 번째 댓글은 어떨까요?" },
+            //     { author: "작성자3", content: "세 번째 댓글도 추가해보겠습니다." },
+            //     { author: "작성자1", content: "이것은 첫 번째 댓글입니다." },
+            //     { author: "작성자2", content: "두 번째 댓글은 어떨까요?" },
+            //     { author: "작성자3", content: "세 번째 댓글도 추가해보겠습니다." },
+            //     { author: "작성자1", content: "이것은 첫 번째 댓글입니다." },
+            //     { author: "작성자2", content: "두 번째 댓글은 어떨까요?" },
+            //     { author: "작성자3", content: "세 번째 댓글도 추가해보겠습니다." },
+            //     { author: "작성자1", content: "이것은 첫 번째 댓글입니다." },
+            //     { author: "작성자2", content: "두 번째 댓글은 어떨까요?" },
+            //     { author: "작성자3", content: "세 번째 댓글도 추가해보겠습니다." },
+            //     // 추가 댓글 데이터
+            // ];
 
-    // 원래 내용 보이기
-    commentContent.style.display = 'block';
+            const commentsPerPage = 5; // 한 페이지에 보일 댓글 수
+            let currentPage = 1; // 현재 페이지
 
-    const onlyContent = originalContent.split(":")[1].trim() // 게시글 내용만 
-    
-    // 수정 폼 추가
-    const editForm = document.createElement('div');
-    editForm.classList.add('edit-form');
-    editForm.innerHTML = `
+
+
+            // 수정 기능
+            function editComment(index) {
+                const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
+
+                // 이미 수정 폼이 열려 있는지 확인
+                if (commentElement.querySelector('.edit-form')) {
+                    return; // 수정 폼이 이미 열려있으면 더 이상 처리하지 않음
+                }
+
+                const commentContent = commentElement.querySelector('.comment-content');
+                const originalContent = commentContent.querySelector('p').textContent;
+
+                // 원래 내용 보이기
+                commentContent.style.display = 'block';
+
+                const onlyContent = originalContent.split(":")[1].trim() // 게시글 내용만 
+
+                // 수정 폼 추가
+                const editForm = document.createElement('div');
+                editForm.classList.add('edit-form');
+                editForm.innerHTML = `
         <textarea class="edit-content" maxlength="500">${onlyContent}</textarea>
         <div class="button-container">
             <button onclick="saveEdit(${index})">저장</button>
             <button onclick="cancelEdit(${index})">취소</button>
         </div>
     `;
-    commentElement.appendChild(editForm);
-}
+                commentElement.appendChild(editForm);
+            }
 
-// 수정 API
-function saveEditApi(index, editedContent) {
+            // 수정 API
+            function saveEditApi(index, editedContent) {
 
-    console.log("saveEditApi [info] : "+posts[index].email)
-    // 서버로 수정된 내용을 전송
-    console.log("saveEditApi index : "+index+" "+posts[index].postId,posts[index].email)
-    fetch(`/api/v1/post/user/update/${postIDList[index]}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-            postId: postIDList[index],
-            content: editedContent,
-            email : posts[index].email
-        }) // body 객체의 JSON.stringify() 메서드가 닫는 괄호에 위치해야 합니다.
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('게시물 업데이트 실패');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('게시물이 성공적으로 업데이트되었습니다:', data);
-        // 업데이트된 내용을 화면에 반영하는 등의 작업 수행
-    })
-    .catch(error => {
-        console.error('게시물 업데이트 중 오류 발생:', error);
-    });
-}
+                console.log("saveEditApi [info] : " + posts[index].email)
+                // 서버로 수정된 내용을 전송
+                console.log("saveEditApi index : " + index + " " + posts[index].postId, posts[index].email)
+                fetch(`/api/v1/post/user/update/${postIDList[index]}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        postId: postIDList[index],
+                        content: editedContent,
+                        email: posts[index].email
+                    }) 
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('게시물 업데이트 실패');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('게시물이 성공적으로 업데이트되었습니다:', data);
+                        // 업데이트된 내용을 화면에 반영하는 등의 작업 수행
+                    })
+                    .catch(error => {
+                        console.error('게시물 업데이트 중 오류 발생:', error);
+                    });
+            }
 
-// 저장 기능
-function saveEdit(index) {
-    const editedContent = document.querySelector('.comment:nth-child(' + (index + 1) + ') .edit-content').value;
-    posts[index].content = editedContent;
+            // 저장 기능
+            function saveEdit(index) {
+                const editedContent = document.querySelector('.comment:nth-child(' + (index + 1) + ') .edit-content').value;
+                posts[index].content = editedContent;
 
-    // 수정 완료 후 수정 폼 제거
-    const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
-    commentElement.removeChild(commentElement.querySelector('.edit-form'));
-    // 댓글 수정 
-    saveEditApi(index, editedContent)
-    // 다시 댓글 표시
-    displayComments();
-}
+                // 수정 완료 후 수정 폼 제거
+                const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
+                commentElement.removeChild(commentElement.querySelector('.edit-form'));
+                // 댓글 수정 
+                saveEditApi(index, editedContent)
+                // 다시 댓글 표시
+                displayComments();
+            }
 
-// 취소 기능
-function cancelEdit(index) {
-    const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
-    // 수정 폼 제거
-    commentElement.removeChild(commentElement.querySelector('.edit-form'));
-    
-    // 원래 내용 보이기
-    commentElement.querySelector('.comment-content').style.display = 'block';
-}
+            // 취소 기능
+            function cancelEdit(index) {
+                const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
+                // 수정 폼 제거
+                commentElement.removeChild(commentElement.querySelector('.edit-form'));
 
-
-
-
-// 삭제 기능
-function deleteComment(index) {
-    const confirmation = confirm("정말로 이 댓글을 삭제하시겠습니까?");
-    if (confirmation) {
-        posts.splice(index, 1);
-        displayComments();
-    }
-}
+                // 원래 내용 보이기
+                commentElement.querySelector('.comment-content').style.display = 'block';
+            }
 
 
 
-    </script>
-    <br><br><br>
+
+            // 삭제 기능
+            function deleteComment(index) {
+                const confirmation = confirm("정말로 이 댓글을 삭제하시겠습니까?");
+                if (confirmation) {
+
+
+                    posts.splice(index, 1);
+                    deletePostApi(index);
+                    displayComments();
+
+
+                }
+            }
+
+            function deletePostApi(index) {
+
+                console.log("postIDList : " + postIDList[index]);
+                fetch(`/api/v1/post/user/delete/${postIDList[index]}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('게시물 삭제 실패');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('게시물이 성공적으로 삭제되었습니다:', data);
+                        postIDList.splice(index, 1);
+                        console.log("delte postId : " + postIDList[index]);
+                        // 업데이트된 내용을 화면에 반영하는 등의 작업 수행
+                    })
+                    .catch(error => {
+                        console.error('게시물 삭제 중 오류 발생:', error);
+                    });
+            }
+
+
+
+
+        </script>
+        <br><br><br>
     </section>
 
-    
-    
+
+
 </body>
+
 </html>
