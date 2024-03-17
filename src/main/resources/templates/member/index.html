@@ -245,79 +245,136 @@
             <textarea name="content" placeholder="와글와글 떠들어주세요!(500자까지만!)" maxlength="500" required></textarea><br>
             <input type="submit" value="와글와글">
             <span id="username" style="display: none;">{{username}}</span>
+
         </form>        
 
+   
         <script>
-        //     function addAdditionalData(event) {
-        //         // 이벤트 기본 동작(폼 제출)을 중지하여 JavaScript로 폼을 처리할 수 있도록 합니다.
-        //         event.preventDefault();
-                
-        //         // 사용자 이름을 가져옵니다.
-        //         const username = document.getElementById('username').textContent.trim();
-                
-        //         // 폼을 가져옵니다.
-        //         const form = event.target;
-                
-        //         // 사용자 이름을 담을 hidden input 엘리먼트를 생성합니다.
-        //         const hiddenField = document.createElement('input');
-        //         hiddenField.setAttribute('type', 'hidden');
-        //         hiddenField.setAttribute('name', 'email'); // 사용자 이름을 email 필드에 설정합니다.
-        //         hiddenField.setAttribute('value', username);
-                
-        //         // 폼에 hidden input 엘리먼트를 추가합니다.
-        //         form.appendChild(hiddenField);
-        
-        //         // 폼을 서버로 제출합니다.
-        //         fetch('/api/v1/post/user/post/write', {
-        //             method: 'POST',
-        //             body: new FormData(form)
-        //         })
-        //         .then(response => response.json())
-        //         .then(data => {
-        //             // 새로운 코멘트를 동적으로 추가합니다.
-        //             const commentList = document.querySelector('.comment-list .comments');
-        //             const newComment = document.createElement('div');
-        //             newComment.classList.add('comment');
-        //             newComment.innerHTML = `
-        //                 <div class="comment-content">
-        //                     <p><span class="comment-author">${data.author}:</span> ${data.content}</p>
-        //                 </div>
-        //                 <div class="comment-buttons">
-        //                     <button onclick="editComment(${index})">수정</button>
-        //                     <button onclick="deleteComment(${index})">삭제</button>
-        //                 </div>
-        //             `;
-        //             commentList.prepend(newComment); // 새로운 코멘트를 맨 위에 추가합니다.
-        //         })
-        //         .catch(error => {
-        //             console.error('코멘트를 추가하는 동안 오류가 발생했습니다:', error);
-        //         });
-        //     }
-        // </script>
-        
-        <script>
-            function addAdditionalData(event) {
-                // 이벤트 기본 동작(폼 제출)을 중지하여 JavaScript로 폼을 처리할 수 있도록 합니다.
-                event.preventDefault();
-                
-                // 사용자 이름을 가져옵니다.
-                const username = document.getElementById('username').textContent.trim();
-                
-                // 폼을 가져옵니다.
-                const form = event.target;
-                
-                // 사용자 이름을 담을 hidden input 엘리먼트를 생성합니다.
-                const hiddenField = document.createElement('input');
-                hiddenField.setAttribute('type', 'hidden');
-                hiddenField.setAttribute('name', 'email'); // 사용자 이름을 email 필드에 설정합니다.
-                hiddenField.setAttribute('value', username);
-                
-                // 폼에 hidden input 엘리먼트를 추가합니다.
-                form.appendChild(hiddenField);
-    
-                // 폼을 서버로 제출합니다.
-                form.submit();
+   
+   // 댓글 목록 및 페이지 링크를 표시하는 함수
+function displayComments() {
+    const commentList = document.querySelector('.comments');
+    const pagination = document.querySelector('.pagination');
+
+    commentList.innerHTML = '';
+    pagination.innerHTML = '';
+
+    const startIndex = (currentPage - 1) * commentsPerPage;
+    const endIndex = startIndex + commentsPerPage;
+    const displayedComments = posts.slice(startIndex, endIndex);
+
+    displayedComments.forEach((comment, index) => {
+        const commentElement = document.createElement('div');
+        commentElement.classList.add('comment');
+        commentElement.innerHTML = `
+            <div class="comment-content">
+                <p><span class="comment-author">${comment.author}:</span> ${comment.content}</p>
+            </div>
+            <div class="comment-buttons">
+                <button onclick="editComment(${startIndex + index})">수정</button>
+                <button onclick="deleteComment(${startIndex + index})">삭제</button>
+            </div>
+        `;
+        commentList.appendChild(commentElement);
+    });
+
+    const totalPages = Math.ceil(posts.length / commentsPerPage);
+    for (let i = 1; i <= totalPages; i++) {
+        const pageLink = document.createElement('a');
+        pageLink.classList.add('page-link');
+        pageLink.textContent = i;
+        pageLink.addEventListener('click', () => {
+            currentPage = i;
+            displayComments();
+        });
+        pagination.appendChild(pageLink);
+    }
+}
+
+// 페이지 로드 시 댓글 표시
+fetch('/api/v1/post/user/all')
+    .then(response => response.json())
+    .then(data => {
+        // 서버에서 받은 데이터를 변수에 할당
+        posts = data;
+        displayComments(); // 댓글을 표시하는 함수 호출
+    })
+    .catch(error => {
+        console.error('댓글을 불러오는 동안 오류가 발생했습니다:', error);
+    });
+
+// 페이지 로드 시 댓글 표시
+displayComments();
+
+
+
+function addAdditionalData(event) {
+    event.preventDefault(); // 폼 제출 방지
+
+    const username = document.getElementById('username').textContent.trim();
+    const author = null;
+
+    const form = event.target;
+    console.log("form : " + form);
+
+    // 폼 데이터 준비
+    const formData = new FormData(form);
+    formData.append('email', username); 
+
+    // 서버에 비동기적으로 POST 요청 보내기
+    fetch('/api/v1/post/user/write', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('댓글 추가 실패');
+        }
+        return response.json(); 
+    })
+    .then(data => {
+        console.log(data)
+
+        data.forEach(post => {
+            // post는 Map<String, String> 형식의 데이터
+            const email = post.email;
+            let author, content;
+
+
+            try {
+                author = data[0].nickname;
+                // AJAX 요청을 보내서 이메일에 해당하는 닉네임 가져오기
+                // 이 부분은 실제로 서버에서 처리되어야 합니다.
+            } catch (error) {
+                author = null;
+                console.error(error);
             }
+
+            content = post.content;
+
+            // 데이터를 출력하거나 활용하기
+            console.log("Author: " + author + ", Content: " + content);
+
+            // 댓글 데이터를 Map 형태로 생성하여 리스트에 추가
+            const postData = {
+                author: author,
+                content: content
+            };
+
+            
+            posts.unshift(postData);
+
+            console.log("new posts : "+posts)
+        });
+
+        displayComments(); // 댓글 표시를 업데이트
+        form.reset(); // 폼의 입력 요소를 초기화
+
+    })
+    .catch(error => {
+        console.error('오류:', error);
+    });
+}
         </script>
 
 
@@ -418,60 +475,6 @@ function deleteComment(index) {
     }
 }
 
-// 댓글 목록 및 페이지 링크를 표시하는 함수
-function displayComments() {
-    const commentList = document.querySelector('.comments');
-    const pagination = document.querySelector('.pagination');
-
-    commentList.innerHTML = '';
-    pagination.innerHTML = '';
-
-    const startIndex = (currentPage - 1) * commentsPerPage;
-    const endIndex = startIndex + commentsPerPage;
-    const displayedComments = posts.slice(startIndex, endIndex);
-
-    displayedComments.forEach((comment, index) => {
-        const commentElement = document.createElement('div');
-        commentElement.classList.add('comment');
-        commentElement.innerHTML = `
-            <div class="comment-content">
-                <p><span class="comment-author">${comment.author}:</span> ${comment.content}</p>
-            </div>
-            <div class="comment-buttons">
-                <button onclick="editComment(${startIndex + index})">수정</button>
-                <button onclick="deleteComment(${startIndex + index})">삭제</button>
-            </div>
-        `;
-        commentList.appendChild(commentElement);
-    });
-
-    const totalPages = Math.ceil(posts.length / commentsPerPage);
-    for (let i = 1; i <= totalPages; i++) {
-        const pageLink = document.createElement('a');
-        pageLink.classList.add('page-link');
-        pageLink.textContent = i;
-        pageLink.addEventListener('click', () => {
-            currentPage = i;
-            displayComments();
-        });
-        pagination.appendChild(pageLink);
-    }
-}
-
-// 페이지 로드 시 댓글 표시
-fetch('/api/v1/post/user/all')
-    .then(response => response.json())
-    .then(data => {
-        // 서버에서 받은 데이터를 변수에 할당
-        posts = data;
-        displayComments(); // 댓글을 표시하는 함수 호출
-    })
-    .catch(error => {
-        console.error('댓글을 불러오는 동안 오류가 발생했습니다:', error);
-    });
-
-// 페이지 로드 시 댓글 표시
-displayComments();
 
 
     </script>

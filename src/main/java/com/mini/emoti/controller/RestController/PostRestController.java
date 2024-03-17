@@ -37,12 +37,29 @@ public class PostRestController {
     @Autowired
     private UserService userService;
 
-      // 게시글 작성 
+
     @PostMapping("/user/write")
-    public void  writePost(@Valid @ModelAttribute PostDto dto){
+    public List<Map<String, String>> writePost(@Valid @ModelAttribute PostDto dto) {
+        List<Map<String, String>> responseData = new ArrayList<>();
+        
         postService.writePost(dto);
 
+        Map<String, String> data = new HashMap<>();
+        try {
+            String nickname = userService.findByEmail(dto.getEmail()).getNickname();
+            data.put("nickname", nickname);
+        } catch (Exception e) {
+            data.put("nickname", null);
+            e.printStackTrace();
+        }
+        data.put("content", dto.getContent());
+        responseData.add(data);
+
+        log.info("[PostRestController][responseData] : "+ responseData);
+        
+        return responseData;
     }
+
     
     // 게시글 삭제 
     @DeleteMapping("/user/delete/{postId}")
@@ -93,5 +110,7 @@ public class PostRestController {
         return posts;
     }
 
-    
 }
+
+    
+
