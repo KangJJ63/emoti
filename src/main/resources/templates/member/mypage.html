@@ -14,8 +14,6 @@
     <link rel="icon" type="image/x-icon" href="/static/assets/favicon.ico" />
     <link href="/static/css/mypage/styles.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 
     <style>
         /* 사용자 사진 크기 조절 및 원형으로 만들기 */
@@ -51,47 +49,40 @@
         }
 
         @keyframes fadeInBounce {
-            0% {
-                opacity: 0;
-                transform: scale(0);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.2);
-                /* 중간에 약간 크게 만들어 '바운스' 효과를 줍니다. */
-            }
-
-            70% {
-                transform: scale(0.9);
-                /* 바운스 되돌아오는 효과 */
-            }
-
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
+        0% {
+            opacity: 0;
+            transform: scale(0);
         }
-
-        .fadeInBounce {
-            animation-name: fadeInBounce;
-            animation-duration: 4s;
-            /* 지속 시간을 4초로 설정 */
-            animation-fill-mode: both;
+        50% {
+            opacity: 1;
+            transform: scale(1.2); /* 중간에 약간 크게 만들어 '바운스' 효과를 줍니다. */
         }
+        70% {
+            transform: scale(0.9); /* 바운스 되돌아오는 효과 */
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
 
-        header .navbar {
+    .fadeInBounce {
+        animation-name: fadeInBounce;
+        animation-duration: 4s; /* 지속 시간을 4초로 설정 */
+        animation-fill-mode: both;
+    }
+
+    header .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 1rem;
-            /* 필요에 따라 조절 */
+            padding: 0.5rem 1rem; /* 필요에 따라 조절 */
+        }
+        
+        header .navbar .nav-item button {
+            margin-left: 8px; /* 버튼 간의 간격 */
         }
 
-        header .navbar .nav-item button {
-            margin-left: 8px;
-            /* 버튼 간의 간격 */
-        }
     </style>
 </head>
 
@@ -101,28 +92,42 @@
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="#!">
-                    <img src="/static/img/mypage/basic.png" alt="My Page Logo"
-                        style="height:30px; margin-right: 10px;">My Page
+                    <img src="/static/img/mypage/basic.png" alt="My Page Logo" style="height:30px; margin-right: 10px;">My Page
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation"><span
-                        class="navbar-toggler-icon"></span></button>
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <button class="btn btn-primary" style="margin-right: 8px;"
-                                onclick="location.href='#!'">Home</button>
+                            <button class="btn btn-primary" style="margin-right: 8px;" onclick="window.location.href = '/index';">Home</button>
                         </li>
                         <li class="nav-item">
-                            <button class="btn btn-danger" id="logoutModalBtn">Logout</button>
+                            <button class="btn btn-danger" id="logoutModalBtn" onclick=logout()>Logout</button>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+    
+    <script>
 
+function logout() {
+            fetch(`/logout`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('로그아웃 실패');
+                    }
+                    // 로그아웃에 성공하면 홈페이지로 리디렉션
+                    window.location.href = '/';
+                })
+                .catch(error => {
+                    console.error('로그아웃 중 오류 발생:', error);
+                    // 오류가 발생한 경우 사용자에게 알림을 표시할 수 있습니다.
+                });
+        }
+    </script>
     <!-- 로그아웃 모달 -->
     <div id="logoutModal" class="modal">
         <!-- 로그아웃 모달 내용 -->
@@ -137,18 +142,15 @@
     <!-- Header - set the background image for the header in the line below-->
     <header class="py-5 bg-image-full" style="background-image: url('/static/img/mypage/backimage.jpg')">
         <div class="text-center my-5">
-            <img class="img-fluid rounded-circle mb-4" src="/static/img/mypage/profile.jpg" alt="Profile Image">
-            <!-- 여기에 > 추가 -->
+            <img class="img-fluid rounded-circle mb-4" src="/static/img/mypage/profile.jpg" alt="Profile Image"> <!-- 여기에 > 추가 -->
             <div>
-                <h1 class="text-black fs-3 fw-bolder"></h1>
-                <p style="color: black;  font-size: 24px; margin-bottom: 0;">{{username}}</p>
+                <h1 class="text-black fs-3 fw-bolder">김백운</h1>
+                <p style="color: black; margin-bottom: 0;">qordns0615@naver.com</p>
 
 
             </div>
         </div>3
     </header>
-
-
     <!-- Content section-->
     <section class="py-5">
         <div class="container my-5">
@@ -176,7 +178,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">최대감정</h5>
-                            <p class="card-text" id="max-emotion-count">최대 감정 수</p>
+                            <p class="card-text" id="comment-count">최대 감정 수</p>
                         </div>
                     </div>
                 </div>
@@ -184,67 +186,12 @@
         </div>
     </section>
 
-    <script>
 
-        const colors = {
-            '행복': '#FDE56C',
-            '놀람': '#32B3D6',
-            '보통': '#8FE22F',
-            '슬픔': '#254EDB',
-            '분노': '#FC532D'
-        };
-        function fetchMaxEmotionCount() {
-    var email = "{{username}}"; // 사용자 이메일 주소
-
-    // 사용자의 최대 감정 수를 가져오는 API 호출
-    $.get("/api/v1/emotion/most/member/" + email, function (data) {
-        // 서버에서 받은 데이터로 최대 감정 수 표시하기
-        var maxEmotionCountElement = document.getElementById('max-emotion-count');
-        var emotionCountElement = document.getElementById('emotion-count');
-
-
-        var counts = getMaxEmotionCount(data); // 최대 감정 수 구하기
-        var maxCount = counts[0];
-        var totalCount = counts[1];
-        console.log("getMaxEmotionCount "+maxCount+" "+totalCount)
-        
-        // maxEmotionCountElement.textContent = maxCount; // 최대 감정 수를 텍스트로 설정
-        // emotionCountElement.textContent = totalCount; // 새로운 텍스트로 변경
-
-    }).fail(function () {
-        // 에러 발생 시 처리
-        var maxEmotionCountElement = document.getElementById('max-emotion-count');
-        maxEmotionCountElement.textContent = "데이터를 가져오는 중에 오류가 발생했습니다.";
-    });
-}
-
-// 데이터 배열에서 최대 감정 수를 찾는 함수
-function getMaxEmotionCount(data) {
-    var maxCount = 0;
-    var totalCount = 0;
-
-    for (var i = 0; i < data.length; i++) {
-        var count = data[i][1];
-        totalCount += count;
-        if (count > maxCount) {
-            maxCount = count;
-        }
-    }
-
-    return [maxCount, totalCount];
-}
-
-// 페이지 로드 시 최대 감정 수 가져오기
-$(document).ready(function () {
-    fetchMaxEmotionCount();
-})
-
-    </script>
 
     <!-- Image element - set the background image for the header in the line below-->
     <!-- Statistics graph container -->
     <div class="container">
-
+        
         <div class="row" style="justify-content: center;"> <!-- 중앙 정렬을 위한 스타일 -->
             <!-- 주간 나의 감정 그래프 -->
             <div class="col-md-6" style="display: flex; justify-content: center; align-items: center;">
@@ -252,7 +199,7 @@ $(document).ready(function () {
                     <h3>주간 나의 기분</h3>
                     <canvas id="dailyEmotionChart"></canvas>
                 </div>
-            </div>
+            </div> 
             <!-- 전체 나의 감정 그래프 -->
             <div class="col-md-6" style="display: flex; justify-content: center; align-items: center;">
                 <div style="width: 100%; max-width: 300px;"> <!-- 최대 너비를 400px로 제한 -->
@@ -260,7 +207,7 @@ $(document).ready(function () {
                     <canvas id="overallEmotionChart"></canvas>
                 </div>
             </div>
-
+        
         </div>
         <div class="row">
             <!-- 연간 감정흐름 그래프 -->
@@ -269,90 +216,90 @@ $(document).ready(function () {
                 <canvas id="trendChart"></canvas>
             </div>
         </div>
-
-        <!-- Content section-->
-        <section class="py-5">
-            <div class="container my-5">
-                <div class="text-center mb-4">
-                    <h2>내가 쓴 글</h2>
+    
+    <!-- Content section-->
+    <section class="py-5">
+        <div class="container my-5">
+            <div class="text-center mb-4">
+                <h2>내가 쓴 글</h2>
+            </div>
+            <div class="row">
+                <!-- Card 1 -->
+                <div class="col-lg-2">
+                    <div class="card text-center">
+                        <div class="card-header bg-primary text-white">
+                            행복한 날
+                        </div>
+                        <div class="card-body">
+                            <img src="/static/img/mypage/happy.png" alt="행복" class="card-img-top">
+                            <a href="#" class="btn btn-primary">Read More</a>
+                        </div>
+                    </div>
                 </div>
-                <div class="row">
-                    <!-- Card 1 -->
-                    <div class="col-lg-2">
-                        <div class="card text-center">
-                            <div class="card-header text-white" style="background-color: #FDE56C">
-                                행복한 날
-                            </div>
-                            <div class="card-body">
-                                <img src="/static/img/mypage/happy.png" alt="행복" class="card-img-top">
-                                <a href="#" class="btn btn-primary">Read More</a>
-                            </div>
+                <!-- Card 2 -->
+                <div class="col-lg-2">
+                    <div class="card text-center">
+                        <div class="card-header bg-warning text-white">
+                            놀란 날
+                        </div>
+                        <div class="card-body">
+                            <img src="/static/img/mypage/suprise.png" alt="놀람" class="card-img-top">
+                            <a href="#" class="btn btn-warning">Read More</a>
                         </div>
                     </div>
-                    <!-- Card 2 -->
-                    <div class="col-lg-2">
-                        <div class="card text-center">
-                            <div class="card-header text-white" style="background-color: #32B3D6">
-                                놀란 날
-                            </div>
-                            <div class="card-body">
-                                <img src="/static/img/mypage/suprise.png" alt="놀람" class="card-img-top">
-                                <a href="#" class="btn btn-warning">Read More</a>
-                            </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="col-lg-2">
+                    <div class="card text-center">
+                        <div class="card-header bg-success text-white">
+                            보통의 날
+                        </div>
+                        <div class="card-body">
+                            <img src="/static/img/mypage/soso.png" alt="보통" class="card-img-top">
+                            <a href="#" class="btn btn-success">Read More</a>
                         </div>
                     </div>
-                    <!-- Card 3 -->
-                    <div class="col-lg-2">
-                        <div class="card text-center" style="background-color: #8FE22F">
-                            <div class="card-header bg-success text-white">
-                                보통의 날
-                            </div>
-                            <div class="card-body">
-                                <img src="/static/img/mypage/soso.png" alt="보통" class="card-img-top">
-                                <a href="#" class="btn btn-success">Read More</a>
-                            </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="col-lg-2">
+                    <div class="card text-center">
+                        <div class="card-header bg-secondary text-white">
+                            슬픈 날
+                        </div>
+                        <div class="card-body">
+                            <img src="/static/img/mypage/sad.png" alt="슬픔" class="card-img-top">
+                            <a href="#" class="btn btn-secondary">Read More</a>
                         </div>
                     </div>
-                    <!-- Card 4 -->
-                    <div class="col-lg-2">
-                        <div class="card text-center" style="background-color: #254EDB">
-                            <div class="card-header bg-secondary text-white">
-                                슬픈 날
-                            </div>
-                            <div class="card-body">
-                                <img src="/static/img/mypage/sad.png" alt="슬픔" class="card-img-top">
-                                <a href="#" class="btn btn-secondary">Read More</a>
-                            </div>
+                </div>
+                <!-- Card 5 -->
+                <div class="col-lg-2">
+                    <div class="card text-center">
+                        <div class="card-header bg-danger text-white">
+                            분노한 날
                         </div>
-                    </div>
-                    <!-- Card 5 -->
-                    <div class="col-lg-2">
-                        <div class="card text-center" style="background-color: #FC532D">
-                            <div class="card-header bg-danger text-white">
-                                분노한 날
-                            </div>
-                            <div class="card-body">
-                                <img src="/static/img/mypage/angry.png" alt="분노" class="card-img-top">
-                                <a href="#" class="btn btn-danger">Read More</a>
-                            </div>
+                        <div class="card-body">
+                            <img src="/static/img/mypage/angry.png" alt="분노" class="card-img-top">
+                            <a href="#" class="btn btn-danger">Read More</a>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
+    
 
-
-
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container">
-                <p class="m-0 text-center text-white">Design By 김배꿍</p>
-            </div>
-        </footer>
-        <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
-        <script src="/static/js/scripts.js"></script>
+    
+    <!-- Footer-->
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Design By 김배꿍</p>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/static/js/scripts.js"></script>
 </body>
 
 </html>
