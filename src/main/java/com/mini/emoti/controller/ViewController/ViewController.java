@@ -59,8 +59,8 @@ public class ViewController {
       @GetMapping("user/mypage")
       public String mypage(Authentication authentication, Model model){
 
-         // UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-         // model.addAttribute("username", userDetails.getUsername());
+         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+         model.addAttribute("username", userDetails.getUsername());
          return "member/mypage";
        }
 

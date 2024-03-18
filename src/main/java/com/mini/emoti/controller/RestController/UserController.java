@@ -28,12 +28,6 @@ public class UserController {
 @Autowired
 private UserService userService;
 
-@Autowired
-private TemplateEngine templateEngine;
-
-@Autowired
-private ResourceLoader resourceLoader;
-
 
 // @PostMapping("/join")
 // public ResponseEntity<String> join(@RequestBody UserDto dto) {
@@ -67,8 +61,14 @@ public RedirectView join(@ModelAttribute UserDto dto) {
     // 유저 조회
     // localhost:8080/api/v1/user/{userName}
     @GetMapping("/user/{userName}")
-    public UserDto selectUser(@PathVariable("userName") String userName) throws Exception {
+    public UserDto findByUserName(@PathVariable("userName") String userName) throws Exception {
         return userService.findByUserName(userName);
+        // return ResponseEntity.ok(userService.findByUserName(userName).toString());
+    }
+
+    @GetMapping("/user/{email}")
+    public UserDto findByEmail(@PathVariable("email") String email) throws Exception {
+        return userService.findByEmail(email);
         // return ResponseEntity.ok(userService.findByUserName(userName).toString());
     }
 

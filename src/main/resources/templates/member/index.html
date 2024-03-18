@@ -422,7 +422,9 @@
 
 
             function addAdditionalData(event) {
+
                 event.preventDefault(); // 폼 제출 방지
+
 
                 const username = document.getElementById('username').textContent.trim();
                 const author = null;
@@ -528,6 +530,10 @@
 
             // 수정 기능
             function editComment(index) {
+                const email = document.getElementById('username').textContent.trim();
+
+                console.log("editComment : "+posts[index].email+" email : "+email)
+                if(email == posts[index].email){
                 const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
 
                 // 이미 수정 폼이 열려 있는지 확인
@@ -554,6 +560,8 @@
         </div>
     `;
                 commentElement.appendChild(editForm);
+
+    }
             }
 
             // 수정 API
@@ -590,6 +598,9 @@
 
             // 저장 기능
             function saveEdit(index) {
+                const email = document.getElementById('username').textContent.trim();
+
+                if(posts[index].email == email){
                 const editedContent = document.querySelector('.comment:nth-child(' + (index + 1) + ') .edit-content').value;
                 posts[index].content = editedContent;
 
@@ -600,6 +611,7 @@
                 saveEditApi(index, editedContent)
                 // 다시 댓글 표시
                 displayComments();
+                }
             }
 
             // 취소 기능
