@@ -18,6 +18,11 @@ header {
     z-index: 1000;
 }
 
+/* 이모티콘 효과 */
+figure:active {
+    position: relative;
+    top:4px;
+}
 /* 추가된 CSS 스타일 */
 #buttonSet {
     display: flex; /* 버튼을 가로로 정렬하기 위해 Flexbox를 사용합니다. */

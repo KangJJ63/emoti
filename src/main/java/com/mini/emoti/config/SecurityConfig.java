@@ -75,8 +75,10 @@ public class SecurityConfig {
          .logoutUrl("/logout") // 로그아웃 요청 url path
          .logoutSuccessHandler(logoutAuthSuccesshandler) // 로그아웃 성공시
          .permitAll()
-         );
-
+         )
+         .exceptionHandling(exceptionHandling -> exceptionHandling
+         .authenticationEntryPoint((request, response, authException) -> response.sendRedirect("/index"))
+     ); // 인증되지 않은 사용자가 접근했을 때 "/index"로 리디렉션합니다.
 
          http.headers().frameOptions().disable(); // X-Frame-Options 헤더 비활성화
 
