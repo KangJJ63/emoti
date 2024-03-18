@@ -347,6 +347,10 @@
 
         <script>
 
+            const commentsPerPage = 5; // 한 페이지에 보일 댓글 수
+            let currentPage = 1; // 현재 페이지
+
+
             // 댓글 목록 및 페이지 링크를 표시하는 함수
             function displayComments() {
                 const commentList = document.querySelector('.comments');
@@ -459,7 +463,6 @@
                             try {
                                 author = data[0].nickname;
                                 postId = data[0].postId; //String -> Long
-
                             } catch (error) {
                                 author = null;
                                 console.error(error);
@@ -472,6 +475,7 @@
 
                             // 댓글 데이터를 Map 형태로 생성하여 리스트에 추가
                             const postData = {
+                                email : post.email,
                                 author: author,
                                 content: content
                             };
@@ -523,10 +527,7 @@
             //     // 추가 댓글 데이터
             // ];
 
-            const commentsPerPage = 5; // 한 페이지에 보일 댓글 수
-            let currentPage = 1; // 현재 페이지
-
-
+       
 
             // 수정 기능
             function editComment(index) {
@@ -629,21 +630,26 @@
 
             // 삭제 기능
             function deleteComment(index) {
+
+            const email = document.getElementById('username').textContent.trim();
+
+            if(posts[index].email == email){
                 const confirmation = confirm("정말로 이 댓글을 삭제하시겠습니까?");
                 if (confirmation) {
 
 
-                    posts.splice(index, 1);
+                    posts.splice(index, 1); // 리스트에서 삭제 
                     deletePostApi(index);
                     displayComments();
 
 
                 }
             }
+            }
 
             function deletePostApi(index) {
-
                 console.log("postIDList : " + postIDList[index]);
+
                 fetch(`/api/v1/post/user/delete/${postIDList[index]}`, {
                     method: 'DELETE',
                     headers: {
@@ -651,15 +657,16 @@
                     }
                 })
                     .then(response => {
+                    postIDList.splice(index, 1);
+
                         if (!response.ok) {
+                            
                             throw new Error('게시물 삭제 실패');
                         }
                         return response.json();
                     })
                     .then(data => {
                         console.log('게시물이 성공적으로 삭제되었습니다:', data);
-                        postIDList.splice(index, 1);
-                        console.log("delte postId : " + postIDList[index]);
                         // 업데이트된 내용을 화면에 반영하는 등의 작업 수행
                     })
                     .catch(error => {

@@ -67,8 +67,8 @@ public class PostController {
     
     // 게시글 삭제 
     @DeleteMapping("/user/delete/{postId}")
-    
     public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId){
+        log.info("[deletePost] : "+postId);
         postService.deletePost(postId);
         return ResponseEntity.ok("삭제 성공");
     }
