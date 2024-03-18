@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mini.emoti.model.dto.EmotionDto;
 import com.mini.emoti.service.EmotionService;
 
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/emotion")
 public class EmotionController {
@@ -71,6 +73,7 @@ public class EmotionController {
     // 오늘 우리의 기분
     @GetMapping("/today")
     public List<Object[]> getTodayEmotions() {
+        log.info("emotionService : "+emotionService.getTodayEmotions());
         return emotionService.getTodayEmotions();
     }
 

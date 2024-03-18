@@ -170,7 +170,7 @@
                     return (prev[1] > current[1]) ? prev : current;
                 }, [null, -Infinity]);
 
-                console.log("fetchTodayEmotions : " + data)
+                console.log("fetchTodayEmotions : " + data[0])
 
                 var emotionTextElement = document.getElementById('emotionText');
                 var emotionImageElement = document.getElementById('emotionImage');
@@ -265,20 +265,14 @@
         }
         function postEmotion(emotion, element) {
             const email = document.getElementById('username').textContent.trim();
-
+            console.log("postEmotion " + email+" "+emotion)
             // JSON 형식의 데이터
             var jsonData = {
                 "email": email,
                 "emotionType": emotion
             };
 
-            document.querySelectorAll('.image-container figure').forEach(item => {
-                item.classList.remove('selected');
-            });
-            element.classList.add('selected');
-
-
-
+        
             // XMLHttpRequest를 이용하여 POST 요청 생성
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/api/v1/emotion/insert", true);
@@ -298,24 +292,7 @@
             };
         }
 
-        function showAlert(message) {
-            var alertDiv = document.createElement('div');
-            alertDiv.classList.add('alert');
-            alertDiv.textContent = message;
-            document.body.appendChild(alertDiv);
 
-            // 3초 후에 알림을 숨김
-            setTimeout(function () {
-                alertDiv.style.display = 'none';
-            }, 3000);
-        }
-
-        document.querySelectorAll('.image-container figure').forEach(item => {
-            item.addEventListener('click', function () {
-                var emotion = this.querySelector('figcaption').textContent;
-                postEmotion(emotion);
-            });
-        });
 
     </script>
 
