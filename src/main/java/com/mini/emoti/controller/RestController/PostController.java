@@ -38,29 +38,12 @@ public class PostController {
 
     // 게시글 작성 
     @PostMapping("/write")
-    public List<Map<String, Object>> writePost(@Valid @ModelAttribute PostDto dto) {
-        List<Map<String, Object>> responseData = new ArrayList<>();
-        
-        Long postId = postService.writePost(dto);
+        public List<Map<String, Object>> writePost(@Valid @ModelAttribute PostDto dto) {
 
-        Map<String, Object> data = new HashMap<>();
-        try {
-            String nickname = userService.findByEmail(dto.getEmail()).getNickname();
-            data.put("nickname", nickname);
-        } catch (Exception e) {
-            data.put("nickname", null);
-            e.printStackTrace();
-        }
-        data.put("content", dto.getContent());
-        data.put("postId", postId);
-        data.put("email", dto.getEmail());
-
-        responseData.add(data);
-
-        log.info("[PostRestController][responseData] : "+ responseData);
-        
+        List<Map<String, Object>> responseData = postService.writePost(dto);
         return responseData;
     }
+
 
     
     // 게시글 삭제 
@@ -91,42 +74,11 @@ public class PostController {
     @GetMapping("/all")
     public List<Map<String,Object>> getAllPost(){
         
-        List<PostDto> allPosts = postService.getAllPost();
+        List<Map<String,Object>>  allPosts = postService.getAllPost();
         log.info("[PostResrController][getAllPost] : "+allPosts);
-
-        List<Map<String, Object>> posts = new ArrayList<>();
-
-        for (PostDto post : allPosts) {
-            String email = post.getEmail(); // 작성자의 이메일 가져오기
-            String nickname;
-            Long postId = post.getPostId();
-            try {
-                nickname = userService.findByEmail(email).getNickname();
-            } catch (Exception e) {
-                nickname = null;
-                e.printStackTrace();
-            }
-            String content = post.getContent(); // 내용 가져오기
-            
-            // 댓글 데이터를 Map 형태로 생성하여 리스트에 추가
-            Map<String, Object> postData = new HashMap<>();
-            postData.put("author", nickname); // 닉네임으로 대체
-            postData.put("content", content);
-            postData.put("postId", postId);
-            postData.put("email", email);
-
-
-            posts.add(postData);
-
-            log.info("[PostResrController][getAllPost] : "+postData);
-        
-        }
-    
-
-        return posts;
+        return allPosts;
     }
 
 }
-
     
 
