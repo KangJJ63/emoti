@@ -25,15 +25,15 @@ public interface EmotionRepository extends JpaRepository<EmotionEntity, Long>{
     // 오늘 우리의 기분
     // CURDATE() 로컬시간보다 1일 늦음 
     // Object[] row1 = {"Happy", 10};
-    @Query(value = "SELECT emotion_type, COUNT(*) as count FROM emotion WHERE DATE(created_date) =  DATE(NOW()) GROUP BY emotion_type ORDER BY count DESC", nativeQuery = true)
+    @Query(value = "SELECT emotion_type, COUNT(*) as count FROM emotion WHERE DATE(created_date) = DATE(CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul')) GROUP BY emotion_type ORDER BY count DESC", nativeQuery = true)
     List<Object[]> getTodayEmotions();
 
     // 주간 우리의 기분 (7일)
-    @Query(value = "SELECT DAYOFWEEK(created_date) as weekday, emotion_type, COUNT(*) as count FROM emotion WHERE created_date BETWEEN ( DATE(NOW()) - INTERVAL 7 DAY) AND ( DATE(NOW()) - INTERVAL 1 DAY) AND email = :email GROUP BY DAYOFWEEK(created_date), emotion_type ORDER BY DAYOFWEEK(created_date), count DESC", nativeQuery = true)
+    @Query(value = "SELECT DAYOFWEEK(created_date) as weekday, emotion_type, COUNT(*) as count FROM emotion WHERE created_date BETWEEN (DATE(CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul')) - INTERVAL 7 DAY) AND (DATE(CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul')) - INTERVAL 1 DAY) AND email = :email GROUP BY DAYOFWEEK(created_date), emotion_type ORDER BY DAYOFWEEK(created_date), count DESC", nativeQuery = true)
     List<Object[]> getLastWeeklyEmotions();
 
     // 주별 우리의 기분
-    @Query(value = "SELECT DAYOFWEEK(DATE(created_date)) as weekday, emotion_type, COUNT(*) as count FROM emotion WHERE DATE(created_date) BETWEEN ( DATE(NOW()) - INTERVAL 7 DAY) AND ( DATE(NOW()) - INTERVAL 1 DAY) GROUP BY DAYOFWEEK(DATE(created_date)), emotion_type ORDER BY DAYOFWEEK(DATE(created_date))", nativeQuery = true)
+    @Query(value = "SELECT DAYOFWEEK(DATE(created_date)) as weekday, emotion_type, COUNT(*) as count FROM emotion WHERE DATE(created_date) BETWEEN (DATE(CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul')) - INTERVAL 7 DAY) AND (DATE(CONVERT_TZ(NOW(), 'UTC', 'Asia/Seoul')) - INTERVAL 1 DAY) GROUP BY DAYOFWEEK(DATE(created_date)), emotion_type ORDER BY DAYOFWEEK(DATE(created_date))", nativeQuery = true)
     List<Object[]> getWeeklyEmotions();
 
     // 그룹별 가장 많은 감정데이터 - 전체

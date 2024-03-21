@@ -39,7 +39,7 @@ public class PostController {
 
 
     // 게시글 작성 
-    @PostMapping("/user/write")
+    @PostMapping("/write")
     public List<Map<String, Object>> writePost(@Valid @ModelAttribute PostDto dto) {
         List<Map<String, Object>> responseData = new ArrayList<>();
         
@@ -66,7 +66,7 @@ public class PostController {
 
     
     // 게시글 삭제 
-    @DeleteMapping("/user/delete/{postId}")
+    @DeleteMapping("/delete/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId){
         log.info("[deletePost] : "+postId);
         postService.deletePost(postId);
@@ -74,7 +74,7 @@ public class PostController {
     }
 
     // 게시글 수정 
-    @PostMapping("/user/update/{postId}")
+    @PostMapping("/update/{postId}")
     public ResponseEntity<String> updatePost(@Valid @RequestBody PostDto dto,
                                             @PathVariable("postId") Long postId ){
         postService.updatePost(dto, postId);
@@ -83,14 +83,14 @@ public class PostController {
     }
     
     // 게시글 조회 
-    @GetMapping("/user/view/{postid}")
+    @GetMapping("/view/{postid}")
     public PostDto findById(@PathVariable("postId") Long postId){
         PostDto dto = postService.findById(postId);
         return dto;
     }
 
     // 전체 게시글 조회 
-    @GetMapping("/user/all")
+    @GetMapping("/all")
     public List<Map<String,Object>> getAllPost(){
         
         List<PostDto> allPosts = postService.getAllPost();

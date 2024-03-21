@@ -29,13 +29,13 @@ public class AuthUserService implements UserDetailsService{
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         // TODO Auto-generated method stub
         log.info("[AuthUserService] : "+email);
-        UserEntity entity = userRepository.findByEmail(email);
+        
+        UserEntity entity = userRepository.findById(email).get();
         // UserEntity entity2 = userRepository.findById(email).get();
         UserDto dto = new UserDto();
         
         log.info("[AuthUserService][entity] "+entity);
         
-        dto.setCommentCnt(entity.getCommentCnt());
         dto.setEmail(entity.getEmail());
         dto.setPassword(entity.getPassword());
         dto.setEmotionCnt(entity.getEmotionCnt());

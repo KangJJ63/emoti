@@ -17,7 +17,6 @@ public class UserDto {
     private String password;
     private String profileImage;
     private int emotionCnt;
-    private int commentCnt;
     private int postCnt;
     
 }

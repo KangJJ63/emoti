@@ -37,7 +37,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public UserEntity findByEmail(String email) {
         // TODO Auto-generated method stub
-        return userRepository.findByEmail(email);
+        return userRepository.findById(email).get();
     }
 
 

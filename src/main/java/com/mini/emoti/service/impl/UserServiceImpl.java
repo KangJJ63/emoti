@@ -46,7 +46,6 @@ public class UserServiceImpl implements UserService{
         UserEntity entity = userDao.findByNickname(userName);
 
         UserDto dto = new UserDto();
-        dto.setCommentCnt(entity.getCommentCnt());
         dto.setEmail(entity.getEmail());
         dto.setEmotionCnt(entity.getEmotionCnt());
         dto.setNickname(entity.getNickname());
@@ -62,10 +61,9 @@ public class UserServiceImpl implements UserService{
     @Override
     public void joinUser(UserDto dto) throws Exception {
         // TODO Auto-generated method stub
-        log.info("[UserServiceImpl][insertUser] "+dto);
+        log.info("[UserServiceImpl][joinUser] "+dto);
 
         UserEntity entity = new UserEntity();
-        entity.setCommentCnt(dto.getCommentCnt());
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());
         entity.setEmotionCnt(dto.getEmotionCnt());
@@ -94,7 +92,6 @@ public class UserServiceImpl implements UserService{
     public void updateUser(UserDto dto) throws Exception{
         // TODO Auto-generated method stub
         UserEntity entity = userDao.findByNickname(dto.getNickname());
-        entity.setCommentCnt(dto.getCommentCnt());
         entity.setEmail(dto.getEmail());
         entity.setPassword(dto.getPassword());
         entity.setEmotionCnt(dto.getEmotionCnt());
@@ -111,7 +108,6 @@ public class UserServiceImpl implements UserService{
         UserEntity entity = userDao.findByEmail(email);
 
         UserDto dto = new UserDto();
-        dto.setCommentCnt(entity.getCommentCnt());
         dto.setEmail(entity.getEmail());
         dto.setEmotionCnt(entity.getEmotionCnt());
         dto.setNickname(entity.getNickname());

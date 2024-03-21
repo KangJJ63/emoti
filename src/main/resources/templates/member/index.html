@@ -143,11 +143,11 @@
 
     <section id="section1">
         <h2>우리의 기분</h2>
-        <p id="emotionText">오늘 우리는 맑음^^</p>
+        <p id="emotionText"></p>
         <br><br>
         <!-- 기존 이미지 대신 버튼 추가 -->
         <figure onclick="openGraphPopup()">
-            <img id="emotionImage" src="/static/img/smile.png" alt="이미지 1" style="width: 200px; height: auto;">
+            <img id="emotionImage" src="/static/img/행복.png" alt="이미지 1" style="width: 200px; height: auto; display: none;">
         </figure>
         <div class="graph-popup" id="graphPopup">
             <iframe id="graphPopupFrame" src="" frameborder="0" style="width: 100%; height: 100%;"></iframe>
@@ -170,28 +170,41 @@
                     return (prev[1] > current[1]) ? prev : current;
                 }, [null, -Infinity]);
 
+                var defaultEmotion = Emotions["1"];
+
+
                 console.log("fetchTodayEmotions : " + data[0])
 
                 var emotionTextElement = document.getElementById('emotionText');
                 var emotionImageElement = document.getElementById('emotionImage');
 
+                if (data.every(item => item[1] == data[0][1])) {
+                    maxEmotion[0] = defaultEmotion;
+                    emotionTextElement.textContent = "오늘 우리는 기분이 좋네요^^";
+                }
+
+                
                 // 가장 개수가 많은 감정에 따라 텍스트와 이미지 변경
-                if (maxEmotion[0] === Emotions["1"]) { //행복
+                if (maxEmotion[0] == Emotions["1"]) { //행복
                     emotionTextElement.textContent = "오늘 우리는 기분이 좋네요^^";
                     emotionImageElement.src = "/static/img/행복.png";
-                } else if (maxEmotion[0] === Emotions["2"]) { //평온
+                } else if (maxEmotion[0] == Emotions["2"]) { //평온
                     emotionTextElement.textContent = "오늘은 마음이 평온한 날이에요";
                     emotionImageElement.src = "/static/img/평온.png";
-                } else if (maxEmotion[0] === Emotions["3"]) { ///놀람
+                } else if (maxEmotion[0] == Emotions["3"]) { ///놀람
                     emotionTextElement.textContent = "놀랍고 신기한 순간을 함께해요!";
                     emotionImageElement.src = "/static/img/놀람.png";
-                } else if (maxEmotion[0] === Emotions["4"]) { // 슬픔 
+                } else if (maxEmotion[0] == Emotions["4"]) { // 슬픔 
                     emotionTextElement.textContent = "오늘 우리는 기분이 우울해요ㅠㅠ";
                     emotionImageElement.src = "/static/img/슬픔.png";
                 } else {
                     emotionTextElement.textContent = "오늘은 화가나는 날이에요" //화남 
                     emotionImageElement.src = "/static/img/화남.png";
                 }
+
+                
+                emotionImageElement.style.display = "block"; // 이미지 요소를 보이도록 설정
+                document.getElementById("info_text").style.display = "block";
             });
         }
 
@@ -337,7 +350,7 @@
         <br><br><br>
         <h2>와글와글 떠듭시당</h2>
         <br>
-        <form class="comment-form" action="/api/v1/post/user/write" method="post" onsubmit="addAdditionalData(event)">
+        <form class="comment-form" action="/api/v1/post/write" method="post" onsubmit="addAdditionalData(event)">
             <textarea name="content" placeholder="와글와글 떠들어주세요!(500자까지만!)" maxlength="500" required></textarea><br>
             <input type="submit" value="와글와글">
             <span id="username" style="display: none;">{{username}}</span>
@@ -394,7 +407,7 @@
             let postIDList = [];
 
             // 페이지 로드 시 게시글 표시
-            fetch('/api/v1/post/user/all')
+            fetch('/api/v1/post/all')
                 .then(response => response.json())
                 .then(data => {
                     // 서버에서 받은 데이터를 변수에 할당
@@ -441,7 +454,7 @@
                 formData.append('email', username);
 
                 // 서버에 비동기적으로 POST 요청 보내기
-                fetch('/api/v1/post/user/write', {
+                fetch('/api/v1/post/write', {
                     method: 'POST',
                     body: formData
                 })
@@ -571,7 +584,7 @@
                 console.log("saveEditApi [info] : " + posts[index].email)
                 // 서버로 수정된 내용을 전송
                 console.log("saveEditApi index : " + index + " " + posts[index].postId, posts[index].email)
-                fetch(`/api/v1/post/user/update/${postIDList[index]}`, {
+                fetch(`/api/v1/post/update/${postIDList[index]}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -650,7 +663,7 @@
             function deletePostApi(index) {
                 console.log("postIDList : " + postIDList[index]);
 
-                fetch(`/api/v1/post/user/delete/${postIDList[index]}`, {
+                fetch(`/api/v1/post/delete/${postIDList[index]}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json'

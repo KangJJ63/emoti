@@ -19,6 +19,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,12 +30,11 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity(name = "UserEntity")
 @Table (name = "users")
 public class UserEntity extends BaseEntity{
 
-       // email
+    // email
     @Id
     @NotBlank
     @Email(message = "올바른 이메일 형식이 아닙니다.") 
@@ -48,26 +48,25 @@ public class UserEntity extends BaseEntity{
     private String nickname;
 
     // pw
+    // @Size(min = 6, max = 10, message = "비밀번호는 최소 6자에서 최대 10자여야 합니다.")
     @NotBlank(message = "비밀번호는 필수입니다.")
+    // @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "비밀번호는 적어도 하나의 영문자와 하나의 숫자를 포함해야 합니다. 최소 6자 이상이어야 합니다.")
     private String password; // PW
-
-    // 개수 -> SQL문으로 정리 
 
     // 감정 개수 
     @PositiveOrZero
     @Column(name = "emotion_cnt", columnDefinition = "int default 0")
     private int emotionCnt;
-    // 댓글 개수
-    @PositiveOrZero
-    @Column(name = "comment_cnt", columnDefinition = "int default 0")
-    private int CommentCnt;
+
     // 게시글 개수 
     @PositiveOrZero
     @Column(name = "post_cnt", columnDefinition = "int default 0")
     private int PostCnt;
+
     // 프로필 이미지 
     @URL
     private String profileImage;
+
     // 로그인 유무
     @Column(columnDefinition = "tinyint(1) default 0")
     private Boolean isLogin;
