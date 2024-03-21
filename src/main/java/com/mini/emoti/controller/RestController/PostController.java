@@ -1,7 +1,5 @@
 package com.mini.emoti.controller.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mini.emoti.model.dto.PostDto;
 import com.mini.emoti.service.PostService;
-import com.mini.emoti.service.UserService;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -32,8 +29,6 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @Autowired
-    private UserService userService;
 
 
     // 게시글 작성 
