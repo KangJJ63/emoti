@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.mini.emoti.model.dto.PostDto;
 
-import java.time.LocalDateTime;
-
 
 public interface PostService {
 

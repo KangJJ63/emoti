@@ -1,11 +1,9 @@
 package com.mini.emoti.controller.RestController;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.Objects;
 import java.util.HashMap;
-import java.lang.Object;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -70,7 +68,7 @@ public class PostController {
     public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId){
         log.info("[deletePost] : "+postId);
         postService.deletePost(postId);
-        return ResponseEntity.ok("삭제 성공");
+        return  ResponseEntity.ok().body("{\"message\": \"삭제 성공\"}");
     }
 
     // 게시글 수정 
@@ -79,9 +77,9 @@ public class PostController {
                                             @PathVariable("postId") Long postId ){
         postService.updatePost(dto, postId);
         
-        return ResponseEntity.ok().body("수정 성공");
+        return ResponseEntity.ok().body("{\"message\": \"삭제 성공\"}");
     }
-    
+        
     // 게시글 조회 
     @GetMapping("/view/{postid}")
     public PostDto findById(@PathVariable("postId") Long postId){

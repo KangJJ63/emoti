@@ -3,7 +3,6 @@ package com.mini.emoti.config;
 import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -28,7 +27,7 @@ public abstract class BaseEntity {
     // @LastModifiedDate
     // private LocalDateTime modifiedDate;
 
-    // 데이터베이스에 '0000-00-00 00:00:00'과 같은 잘못된 값이 입력되는 것을 방지=
+    // 데이터베이스에 '0000-00-00 00:00:00'과 같은 잘못된 값이 입력되는 것을 방지
     public BaseEntity() {
         this.createdDate = LocalDateTime.now();
     }

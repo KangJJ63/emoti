@@ -147,7 +147,8 @@
         <br><br>
         <!-- 기존 이미지 대신 버튼 추가 -->
         <figure onclick="openGraphPopup()">
-            <img id="emotionImage" src="/static/img/행복.png" alt="이미지 1" style="width: 200px; height: auto; display: none;">
+            <img id="emotionImage" src="/static/img/행복.png" alt="이미지 1"
+                style="width: 200px; height: auto; display: none;">
         </figure>
         <div class="graph-popup" id="graphPopup">
             <iframe id="graphPopupFrame" src="" frameborder="0" style="width: 100%; height: 100%;"></iframe>
@@ -183,7 +184,7 @@
                     emotionTextElement.textContent = "오늘 우리는 기분이 좋네요^^";
                 }
 
-                
+
                 // 가장 개수가 많은 감정에 따라 텍스트와 이미지 변경
                 if (maxEmotion[0] == Emotions["1"]) { //행복
                     emotionTextElement.textContent = "오늘 우리는 기분이 좋네요^^";
@@ -202,7 +203,7 @@
                     emotionImageElement.src = "/static/img/화남.png";
                 }
 
-                
+
                 emotionImageElement.style.display = "block"; // 이미지 요소를 보이도록 설정
                 document.getElementById("info_text").style.display = "block";
             });
@@ -278,14 +279,14 @@
         }
         function postEmotion(emotion, element) {
             const email = document.getElementById('username').textContent.trim();
-            console.log("postEmotion " + email+" "+emotion)
+            console.log("postEmotion " + email + " " + emotion)
             // JSON 형식의 데이터
             var jsonData = {
                 "email": email,
                 "emotionType": emotion
             };
 
-        
+
             // XMLHttpRequest를 이용하여 POST 요청 생성
             var xhr = new XMLHttpRequest();
             xhr.open("POST", "/api/v1/emotion/insert", true);
@@ -362,6 +363,127 @@
 
             const commentsPerPage = 5; // 한 페이지에 보일 댓글 수
             let currentPage = 1; // 현재 페이지
+
+            // 수정 기능
+            function editComment(index) {
+                const email = document.getElementById('username').textContent.trim();
+
+                console.log("editComment : " + posts[index].email + " email : " + email)
+
+                if (email == posts[index].email) {
+                    const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
+
+                    // 이미 수정 폼이 열려 있는지 확인
+                    if (commentElement.querySelector('.edit-form')) {
+                        return; // 수정 폼이 이미 열려있으면 더 이상 처리하지 않음
+                    }
+
+                    const commentContent = commentElement.querySelector('.comment-content');
+                    const originalContent = commentContent.querySelector('p').textContent;
+
+                    // 원래 내용 보이기
+                    commentContent.style.display = 'block';
+
+                    const onlyContent = originalContent.split(":")[1].trim() // 게시글 내용만 
+
+                    // 수정 폼 추가
+                    const editForm = document.createElement('div');
+                    editForm.classList.add('edit-form');
+                    editForm.innerHTML = `
+        <textarea class="edit-content" maxlength="500">${onlyContent}</textarea>
+        <div class="button-container">
+            <button onclick="saveEdit(${index})">저장</button>
+            <button onclick="cancelEdit(${index})">취소</button>
+        </div>
+    `;
+                    commentElement.appendChild(editForm);
+
+                }
+            }
+
+            // 수정 API
+            function saveEditApi(index, editedContent) {
+
+                console.log("saveEditApi [info] : " + posts[index].email)
+                // 서버로 수정된 내용을 전송
+                console.log("saveEditApi index : " + index + " " + posts[index].postId, posts[index].email)
+                fetch(`/api/v1/post/update/${postIDList[index]}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        postId: postIDList[index],
+                        content: editedContent,
+                        email: posts[index].email
+                    })
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('게시물 업데이트 실패');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('게시물이 성공적으로 업데이트되었습니다:', data);
+                        // 업데이트된 내용을 화면에 반영하는 등의 작업 수행
+                    })
+                    .catch(error => {
+                        console.error('게시물 업데이트 중 오류 발생:', error);
+                    });
+            }
+
+
+
+            function deleteComment(index) {
+
+                const email = document.getElementById('username').textContent.trim();
+                console.log("email : " + email)
+                console.log("posts[index].email  : " + posts[index].email)
+
+                if (posts[index].email == email) {
+                    const confirmation = confirm("정말로 이 댓글을 삭제하시겠습니까?");
+                    if (confirmation) {
+
+
+                        posts.splice(index, 1); // 리스트에서 삭제 
+                        deletePostApi(index);
+                        displayComments();
+
+
+                    }
+                }
+            }
+
+            function deletePostApi(index) {
+                console.log("postIDList : " + postIDList[index]);
+                console.log(`/api/v1/post/delete/${postIDList[index]}`)
+
+                fetch(`/api/v1/post/delete/${postIDList[index]}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        postIDList.splice(index, 1);
+
+                        if (!response.ok) {
+
+                            throw new Error('게시물 삭제 실패');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('게시물이 성공적으로 삭제되었습니다:', data);
+                    })
+                    .catch(error => {
+                        console.error('게시물 삭제 중 오류 발생:', error);
+                    });
+            }
+
+
+
 
 
             // 댓글 목록 및 페이지 링크를 표시하는 함수
@@ -488,7 +610,7 @@
 
                             // 댓글 데이터를 Map 형태로 생성하여 리스트에 추가
                             const postData = {
-                                email : post.email,
+                                email: post.email,
                                 author: author,
                                 content: content
                             };
@@ -540,91 +662,26 @@
             //     // 추가 댓글 데이터
             // ];
 
-       
 
-            // 수정 기능
-            function editComment(index) {
-                const email = document.getElementById('username').textContent.trim();
 
-                console.log("editComment : "+posts[index].email+" email : "+email)
-                if(email == posts[index].email){
-                const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
 
-                // 이미 수정 폼이 열려 있는지 확인
-                if (commentElement.querySelector('.edit-form')) {
-                    return; // 수정 폼이 이미 열려있으면 더 이상 처리하지 않음
-                }
 
-                const commentContent = commentElement.querySelector('.comment-content');
-                const originalContent = commentContent.querySelector('p').textContent;
-
-                // 원래 내용 보이기
-                commentContent.style.display = 'block';
-
-                const onlyContent = originalContent.split(":")[1].trim() // 게시글 내용만 
-
-                // 수정 폼 추가
-                const editForm = document.createElement('div');
-                editForm.classList.add('edit-form');
-                editForm.innerHTML = `
-        <textarea class="edit-content" maxlength="500">${onlyContent}</textarea>
-        <div class="button-container">
-            <button onclick="saveEdit(${index})">저장</button>
-            <button onclick="cancelEdit(${index})">취소</button>
-        </div>
-    `;
-                commentElement.appendChild(editForm);
-
-    }
-            }
-
-            // 수정 API
-            function saveEditApi(index, editedContent) {
-
-                console.log("saveEditApi [info] : " + posts[index].email)
-                // 서버로 수정된 내용을 전송
-                console.log("saveEditApi index : " + index + " " + posts[index].postId, posts[index].email)
-                fetch(`/api/v1/post/update/${postIDList[index]}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        postId: postIDList[index],
-                        content: editedContent,
-                        email: posts[index].email
-                    })
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('게시물 업데이트 실패');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('게시물이 성공적으로 업데이트되었습니다:', data);
-                        // 업데이트된 내용을 화면에 반영하는 등의 작업 수행
-                    })
-                    .catch(error => {
-                        console.error('게시물 업데이트 중 오류 발생:', error);
-                    });
-            }
 
             // 저장 기능
             function saveEdit(index) {
                 const email = document.getElementById('username').textContent.trim();
 
-                if(posts[index].email == email){
-                const editedContent = document.querySelector('.comment:nth-child(' + (index + 1) + ') .edit-content').value;
-                posts[index].content = editedContent;
+                if (posts[index].email == email) {
+                    const editedContent = document.querySelector('.comment:nth-child(' + (index + 1) + ') .edit-content').value;
+                    posts[index].content = editedContent;
 
-                // 수정 완료 후 수정 폼 제거
-                const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
-                commentElement.removeChild(commentElement.querySelector('.edit-form'));
-                // 댓글 수정 
-                saveEditApi(index, editedContent)
-                // 다시 댓글 표시
-                displayComments();
+                    // 수정 완료 후 수정 폼 제거
+                    const commentElement = document.querySelector('.comment:nth-child(' + (index + 1) + ')');
+                    commentElement.removeChild(commentElement.querySelector('.edit-form'));
+                    // 댓글 수정 
+                    saveEditApi(index, editedContent)
+                    // 다시 댓글 표시
+                    displayComments();
                 }
             }
 
@@ -642,53 +699,6 @@
 
 
             // 삭제 기능
-            function deleteComment(index) {
-
-            const email = document.getElementById('username').textContent.trim();
-
-            if(posts[index].email == email){
-                const confirmation = confirm("정말로 이 댓글을 삭제하시겠습니까?");
-                if (confirmation) {
-
-
-                    posts.splice(index, 1); // 리스트에서 삭제 
-                    deletePostApi(index);
-                    displayComments();
-
-
-                }
-            }
-            }
-
-            function deletePostApi(index) {
-                console.log("postIDList : " + postIDList[index]);
-
-                fetch(`/api/v1/post/delete/${postIDList[index]}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => {
-                    postIDList.splice(index, 1);
-
-                        if (!response.ok) {
-                            
-                            throw new Error('게시물 삭제 실패');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('게시물이 성공적으로 삭제되었습니다:', data);
-                        // 업데이트된 내용을 화면에 반영하는 등의 작업 수행
-                    })
-                    .catch(error => {
-                        console.error('게시물 삭제 중 오류 발생:', error);
-                    });
-            }
-
-
-
 
         </script>
         <br><br><br>
