@@ -119,7 +119,7 @@
         <br><br>
         <!-- 기존 이미지 대신 버튼 추가 -->
         <figure onclick="openPopup()">
-            <img id = emotionImage src="/static/img/smile.png"  alt="이미지 1" style="width: 200px; height: auto; display: none;">
+            <img id = emotionImage src="/static/img/main/smile.png"  alt="이미지 1" style="width: 200px; height: auto; display: none;">
         </figure>
         <div class="popup" id="popup">
             <iframe id="popupFrame" src="" frameborder="0" style="width: 100%; height: 100%;"></iframe>
@@ -159,19 +159,19 @@ const Emotions = {
                 // 가장 개수가 많은 감정에 따라 텍스트와 이미지 변경
                 if (maxEmotion[0] == Emotions["1"]) { //행복
                     emotionTextElement.textContent = "오늘 우리는 기분이 좋네요^^";
-                    emotionImageElement.src = "/static/img/행복.png";
+                    emotionImageElement.src = "/static/img/main/행복.png";
                 } else if (maxEmotion[0] == Emotions["2"]) { //평온
                     emotionTextElement.textContent = "오늘은 마음이 평온한 날이에요";
-                    emotionImageElement.src = "/static/img/평온.png";
+                    emotionImageElement.src = "/static/img/main/평온.png";
                 } else if (maxEmotion[0] == Emotions["3"]) { ///놀람
                     emotionTextElement.textContent = "놀랍고 신기한 순간을 함께해요!";
-                    emotionImageElement.src = "/static/img/놀람.png";
+                    emotionImageElement.src = "/static/img/main/놀람.png";
                 } else if (maxEmotion[0] == Emotions["4"]) { // 슬픔 
                     emotionTextElement.textContent = "오늘 우리는 기분이 우울해요ㅠㅠ";
-                    emotionImageElement.src = "/static/img/슬픔.png";
+                    emotionImageElement.src = "/static/img/main/슬픔.png";
                 } else {
                     emotionTextElement.textContent = "오늘은 화가나는 날이에요" //화남 
-                    emotionImageElement.src = "/static/img/화남.png";
+                    emotionImageElement.src = "/static/img/main/화남.png";
                     
                 }
 

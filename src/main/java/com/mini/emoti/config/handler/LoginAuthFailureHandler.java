@@ -16,7 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class LoginAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler{@Override
+public class LoginAuthFailureHandler extends SimpleUrlAuthenticationFailureHandler {
+    @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException exception) throws IOException, ServletException {
         // TODO Auto-generated method stub
@@ -26,19 +27,37 @@ public class LoginAuthFailureHandler extends SimpleUrlAuthenticationFailureHandl
         writePrintErrorResponse(response, exception);
 
         super.onAuthenticationFailure(request, response, exception);
+
     }
 
-  private void writePrintErrorResponse(HttpServletResponse response,
-      AuthenticationException exception) throws IOException {
+    private void writePrintErrorResponse(HttpServletResponse response,
+            AuthenticationException exception) throws IOException {
 
-          AuthenticationTypes authenticationTypes = AuthenticationTypes.valueOf(exception.getClass().getSimpleName());
-          String errorMessage = authenticationTypes.getMsg();
-          int code = authenticationTypes.getCode();
-          log.error("message: "+errorMessage+" / code: "+code);
+        AuthenticationTypes authenticationTypes = AuthenticationTypes.valueOf(exception.getClass().getSimpleName());
+        // String errorMessage = authenticationTypes.getMsg();
+        // int code = authenticationTypes.getCode();
+        // log.error("message: "+errorMessage+" / code: "+code);
 
-          errorMessage = URLEncoder.encode(errorMessage, "UTF-8"); /* 한글 인코딩 깨진 문제 방지 */
-          setDefaultFailureUrl("/loginPage?errorMessage="+errorMessage);
+        // errorMessage = URLEncoder.encode(errorMessage, "UTF-8"); /* 한글 인코딩 깨진 문제 방지
+        // */
+        // setDefaultFailureUrl("/loginPage?errorMessage="+errorMessage);
 
-      }
-     
+        String errorMessage = URLEncoder.encode(exception.getMessage(), "UTF-8");
+        int code = authenticationTypes.getCode();
+        
+        log.error("message: "+errorMessage+" / code: "+code);
+
+
+        // URL에 인코딩된 에러 메시지를 쿼리 파라미터로 전달
+        // String errorRedirectUrl = "/loginPage?errorMessage=" + errorMessage;
+
+        // 요청 페이지를 유지하면서 에러 메시지만 전달
+        // response.sendRedirect(errorRedirectUrl);
+
+        // 클라이언트에게 에러 메시지를 전송
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter().write(errorMessage);
+
+    }
+
 }

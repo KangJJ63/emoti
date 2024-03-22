@@ -71,10 +71,10 @@ public class UserEntity extends BaseEntity{
     @Column(columnDefinition = "tinyint(1) default 0")
     private Boolean isLogin;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER,  orphanRemoval = true)
     private List<PostEntity> posts;
 
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER,  orphanRemoval = true)
     private List<EmotionEntity> emotions;
     
     @Override

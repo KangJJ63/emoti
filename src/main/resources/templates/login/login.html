@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,19 +17,34 @@
         }
     </style>
 </head>
+
 <body>
     <div class="loginpage" id="loginPage"> <!-- 화면 중앙에 위치하기 위한 div 추가 -->
-        <form class="loginForm" action="/login" method="post">
+        <!-- <form class="loginForm" action="/login" method="post" onsubmit="showErrorPopup('{errorMessage}')"> -->
+        <form class="loginForm" action="/login" method="post" >
+            
             <h2>로그인</h2>
             <div class="input-wrapper">
-                <input class="loginText" id="usernameInput" type="text" name="username" placeholder="아이디" required oninput="validateEmail(this)">
+                <input class="loginText" id="usernameInput" type="text" name="username" placeholder="아이디" required
+                    oninput="validateEmail(this)">
                 <div class="error-message" id="emailErrorMessage">이메일 형식이 아닙니다.</div>
             </div>
-            <input class="loginPassword" id="passwordInput" type="password" name="password" placeholder="비밀번호" required oninput="validatePassword(this)">
-            <div class="error-message" id="passwordErrorMessage" style="margin-bottom: 10px;">비밀번호는 적어도 하나의 영문자와 하나의 숫자를 포해야합니다.</div>
+            <input class="loginPassword" id="passwordInput" type="password" name="password" placeholder="비밀번호" required
+                oninput="validatePassword(this)">
+            <div class="error-message" id="passwordErrorMessage" style="margin-bottom: 5px;">비밀번호는 적어도 하나의 영문자와 하나의 숫자를
+                포해야합니다.</div>
             <input class="loginSubmit" type="submit" value="로그인" id="loginButton" disabled>
             <button class="signup-button" onclick="openJoinPopup()">회원가입</button>
             <script>
+
+                function showErrorPopup(errorMessage) {
+                    // 실패한 이유가 있는 경우에만 팝업 창을 띄웁니다.
+                    if (errorMessage) {
+                        // URL 디코딩하여 에러 메시지 표시
+                        var decodedMessage = decodeURIComponent(errorMessage);
+                        alert(decodedMessage); // 에러 메시지를 경고창으로 표시합니다.
+                    }
+                }
                 function openJoinPopup() {
                     var popup = window.open("http://localhost:8080/joinPage", "_self");
                 }
@@ -77,4 +93,5 @@
         </form>
     </div>
 </body>
+
 </html>

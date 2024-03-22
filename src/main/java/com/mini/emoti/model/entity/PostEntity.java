@@ -33,7 +33,7 @@ public class PostEntity extends BaseEntity{
     private Long postId;
     
     @ManyToOne
-    @JoinColumn(name = "email")
+    @JoinColumn(name = "email" )
     private UserEntity users; // FK 
 
     @Column(length = 500, nullable = false)

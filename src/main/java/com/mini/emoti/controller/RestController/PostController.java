@@ -39,8 +39,6 @@ public class PostController {
         return responseData;
     }
 
-
-    
     // 게시글 삭제 
     @DeleteMapping("/delete/{postId}")
     public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId){

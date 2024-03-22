@@ -147,7 +147,7 @@
         <br><br>
         <!-- 기존 이미지 대신 버튼 추가 -->
         <figure onclick="openGraphPopup()">
-            <img id="emotionImage" src="/static/img/행복.png" alt="이미지 1"
+            <img id="emotionImage" src="/static/img/main/행복.png" alt="이미지 1"
                 style="width: 200px; height: auto; display: none;">
         </figure>
         <div class="graph-popup" id="graphPopup">
@@ -188,19 +188,19 @@
                 // 가장 개수가 많은 감정에 따라 텍스트와 이미지 변경
                 if (maxEmotion[0] == Emotions["1"]) { //행복
                     emotionTextElement.textContent = "오늘 우리는 기분이 좋네요^^";
-                    emotionImageElement.src = "/static/img/행복.png";
+                    emotionImageElement.src = "/static/img/main/행복.png";
                 } else if (maxEmotion[0] == Emotions["2"]) { //평온
                     emotionTextElement.textContent = "오늘은 마음이 평온한 날이에요";
-                    emotionImageElement.src = "/static/img/평온.png";
+                    emotionImageElement.src = "/static/img/main/평온.png";
                 } else if (maxEmotion[0] == Emotions["3"]) { ///놀람
                     emotionTextElement.textContent = "놀랍고 신기한 순간을 함께해요!";
-                    emotionImageElement.src = "/static/img/놀람.png";
+                    emotionImageElement.src = "/static/img/main/놀람.png";
                 } else if (maxEmotion[0] == Emotions["4"]) { // 슬픔 
                     emotionTextElement.textContent = "오늘 우리는 기분이 우울해요ㅠㅠ";
-                    emotionImageElement.src = "/static/img/슬픔.png";
+                    emotionImageElement.src = "/static/img/main/슬픔.png";
                 } else {
                     emotionTextElement.textContent = "오늘은 화가나는 날이에요" //화남 
-                    emotionImageElement.src = "/static/img/화남.png";
+                    emotionImageElement.src = "/static/img/main/화남.png";
                 }
 
 
@@ -249,23 +249,23 @@
         <br><br>
         <div class="image-container">
             <figure onclick="postEmotion(Emotions['1']), this">
-                <img src="/static/img/행복.png" alt="이미지 1" style="width: 100px; height: auto;">
+                <img src="/static/img/main/행복.png" alt="이미지 1" style="width: 100px; height: auto;">
                 <figcaption>행복</figcaption>
             </figure>
             <figure onclick="postEmotion(Emotions['2']), this">
-                <img src="/static/img/평온.png" alt="이미지 2" style="width: 100px; height: auto;">
+                <img src="/static/img/main/평온.png" alt="이미지 2" style="width: 100px; height: auto;">
                 <figcaption>평온</figcaption>
             </figure>
             <figure onclick="postEmotion(Emotions['3']), this">
-                <img src="/static/img/놀람.png" alt="이미지 3" style="width: 100px; height: auto;">
+                <img src="/static/img/main/놀람.png" alt="이미지 3" style="width: 100px; height: auto;">
                 <figcaption>놀람</figcaption>
             </figure>
             <figure onclick="postEmotion(Emotions['4']), this">
-                <img src="/static/img/슬픔.png" alt="이미지 4" style="width: 100px; height: auto;">
+                <img src="/static/img/main/슬픔.png" alt="이미지 4" style="width: 100px; height: auto;">
                 <figcaption>슬픔</figcaption>
             </figure>
             <figure onclick="postEmotion(Emotions['5']), this">
-                <img src="/static/img/화남.png" alt="이미지 5" style="width: 100px; height: auto;">
+                <img src="/static/img/main/화남.png" alt="이미지 5" style="width: 100px; height: auto;">
                 <figcaption>화남</figcaption>
             </figure>
         </div>
@@ -324,7 +324,7 @@
                     $.getJSON('https://api.openweathermap.org/data/2.5/weather?q=Seoul&appid=f0e01c98103e1f00e5c4f0c888ed47f6', function(result){
                     });
                 </script>
-                <h3>서울</h3>
+                <p>서울</p>
                     <h3 class="SeoulIcon"></h3>
                     <h3 class="SeoulNowtemp">현재기온:</h3>
                     <h3 class="SeoulLowtemp">최저기온:</h3>
@@ -361,7 +361,7 @@
                         var weathericonUrl =
                             '<img src= "http://openweathermap.org/img/wn/'
                             + WeatherResult.weather[0].icon +
-                            '.png" alt="' + WeatherResult.weather[0].description + '"/>'
+                            '.png"  style="width:100px; alt="' + WeatherResult.weather[0].description + '"/>'
 
                         $('.SeoulIcon').html(weathericonUrl);
                     });
@@ -369,17 +369,17 @@
             </div>
 
             <div class="sub-section">
-                <p>날씨</p>
+                <p>오늘의 차트</p>
                 <br>
-                <img src="/static/img/smile.png" alt="이미지 1" style="width: 80px;">
-                <p>맑음</p>
+                <img src="/static/img/main/stock3.png" alt="이미지 1" style="width:100px;">
+                <h3>주식 데이터</h3>
             </div>
 
             <div class="sub-section">
-                <p>날씨</p>
+                <p>오늘의 뉴스</p>
                 <br>
-                <img src="/static/img/smile.png" alt="이미지 1" style="width: 80px;">
-                <p>맑음</p>
+                <img src="/static/img/main/news.png" alt="이미지 1" style="width: 100px;">
+                <h3>뉴스 데이터</h3>
             </div>
         </div>
         <br><br><br>
@@ -503,7 +503,7 @@
                 console.log(`/api/v1/post/delete/${postIDList[index]}`)
 
                 fetch(`/api/v1/post/delete/${postIDList[index]}`, {
-                    method: 'DELETE',
+                    method: 'delete',
                     headers: {
                         'Content-Type': 'application/json'
                     }

@@ -18,7 +18,9 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.constraints.PositiveOrZero;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class PostDaoImpl implements PostDao {
     
@@ -37,7 +39,9 @@ public class PostDaoImpl implements PostDao {
     @Override
     public void deletePost(Long postId) {
         // TODO Auto-generated method stub
-        postRepository.deleteById(postId);
+        log.info(""+postId);
+        // postRepository.deleteById(postId);
+        postRepository.deleteByPostId(postId);
         
     }
 
