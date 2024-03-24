@@ -145,6 +145,13 @@
         <div class="comment-list">
             <h2>왁자지껄</h2>
             <div class="comments"></div>
+                <div class="comment-content">
+                    <p><span class="comment-author">${comment.author}:</span> ${comment.content}</p>
+                </div>
+                <div class="comment-buttons">
+                    <button onclick="editComment(${startIndex + index})">수정</button>
+                    <button onclick="deleteComment(${startIndex + index})">삭제</button>
+                </div>
             <div class="pagination"></div>
         </div>
         </div>

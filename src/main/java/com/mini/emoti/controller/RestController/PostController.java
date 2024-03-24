@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -65,11 +67,11 @@ public class PostController {
 
     // 전체 게시글 조회 
     @GetMapping("/all")
-    public List<Map<String,Object>> getAllPost(){
+    public String getAllPost(Authentication authentication,Model model){
         
         List<Map<String,Object>>  allPosts = postService.getAllPost();
         log.info("[PostResrController][getAllPost] : "+allPosts);
-        return allPosts;
+        // return allPosts;
     }
 
 }

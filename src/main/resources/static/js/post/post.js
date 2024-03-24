@@ -1,5 +1,5 @@
 
-const commentsPerPage = 5; // 한 페이지에 보일 댓글 수
+// const commentsPerPage = 5; // 한 페이지에 보일 댓글 수
 let currentPage = 1; // 현재 페이지
 
 // 수정 기능
@@ -165,31 +165,7 @@ function displayComments() {
 let postIDList = [];
 
 // 페이지 로드 시 게시글 표시
-fetch('/api/v1/post/all')
-    .then(response => response.json())
-    .then(data => {
-        // 서버에서 받은 데이터를 변수에 할당
-        console.log("data type: " + typeof data + ", data: ", data);
-        posts = data;
 
-        console.log("data : " + data);
-
-
-        // postIDList -> 삭제 수정에 사용 
-        data.forEach(post => {
-            postIDList.push(post.postId);
-
-        });
-
-        console.log("postIdList : " + postIDList);
-
-        if (data != null) {
-            displayComments();
-        } // 댓글을 표시하는 함수 호출
-    })
-    .catch(error => {
-        console.error('댓글을 불러오는 동안 오류가 발생했습니다:', error);
-    });
 
 // 페이지 로드 시 댓글 표시
 displayComments();
@@ -293,4 +269,42 @@ function cancelEdit(index) {
 
     // 원래 내용 보이기
     commentElement.querySelector('.comment-content').style.display = 'block';
+}
+
+const commentsPerPage = 5; 
+const main = {
+    init : function(){
+        const _this = this;
+
+        document.addEventListener("DOMContentLoaded",function (){
+            _this.getAllPost();
+        });
+    },
+    getAllPost:function(){
+        fetch('/api/v1/post/all')
+        .then(response => response.json())
+        .then(data => {
+            // 서버에서 받은 데이터를 변수에 할당
+            console.log("data type: " + typeof data + ", data: ", data);
+            posts = data;
+    
+            console.log("data : " + data);
+    
+    
+            // postIDList -> 삭제 수정에 사용 
+            data.forEach(post => {
+                postIDList.push(post.postId);
+    
+            });
+    
+            console.log("postIdList : " + postIDList);
+    
+            if (data != null) {
+                displayComments();
+            } // 댓글을 표시하는 함수 호출
+        })
+        .catch(error => {
+            console.error('댓글을 불러오는 동안 오류가 발생했습니다:', error);
+        });
+    }
 }
